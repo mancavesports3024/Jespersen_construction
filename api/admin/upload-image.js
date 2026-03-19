@@ -56,7 +56,7 @@ module.exports = async function handler(req, res) {
     const blob = await put(path, buffer, {
       token,
       access: 'public',
-      addRandomSuffix: false,
+      addRandomSuffix: true,
       contentType,
     });
 
