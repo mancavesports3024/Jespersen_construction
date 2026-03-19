@@ -265,6 +265,12 @@
             margin: 0;
         }
 
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
         .table-card {
             overflow: hidden;
         }
@@ -411,6 +417,10 @@
             .stats-grid {
                 grid-template-columns: 1fr;
             }
+
+            .tables-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -555,7 +565,6 @@
                             <option value="90">Last 90 days</option>
                         </select>
                         <button id="gsc-refresh" class="button button-primary" type="button">Refresh</button>
-                        <button id="gsc-logout" class="button button-secondary" type="button">Logout</button>
                     </div>
                 </div>
 
@@ -581,7 +590,7 @@
                     </article>
                 </section>
 
-                <section class="grid">
+                <section class="tables-grid">
                     <article class="table-card card">
                         <h3>Top search queries</h3>
                         <div class="table-wrap">
@@ -621,28 +630,6 @@
                     </article>
                 </section>
             </section>
-
-            <section class="grid">
-                <article class="panel">
-                    <div class="section-title">
-                        <div>
-                            <h2>Search Notes</h2>
-                            <p class="muted">Keep manual notes (keywords to target, pages to improve, etc.).</p>
-                        </div>
-                        <button class="button button-secondary" type="button" data-add="search-row">Add Row</button>
-                    </div>
-                    <div class="field">
-                        <label for="search-title-input">Section Title</label>
-                        <input id="search-title-input" type="text">
-                    </div>
-                    <div class="field">
-                        <label for="search-description-input">Description</label>
-                        <textarea id="search-description-input"></textarea>
-                    </div>
-                    <p class="helper">This data is stored for admin use and is not shown on the public homepage.</p>
-                    <div id="search-results-list" class="repeater-list"></div>
-                </article>
-            </section>
         </section>
     </main>
 
@@ -663,7 +650,6 @@
         };
         const gscDaysSelect = document.getElementById('gsc-days');
         const gscRefreshButton = document.getElementById('gsc-refresh');
-        const gscLogoutButton = document.getElementById('gsc-logout');
 
         const state = {
             content: null,
@@ -996,14 +982,11 @@
             document.getElementById('about-eyebrow-input').value = state.content.about.eyebrow || '';
             document.getElementById('about-heading-input').value = state.content.about.heading || '';
             document.getElementById('about-body-input').value = state.content.about.body || '';
-            document.getElementById('search-title-input').value = state.content.searchResults.title || '';
-            document.getElementById('search-description-input').value = state.content.searchResults.description || '';
 
             renderServices();
             renderPortfolio();
             renderAboutFeatures();
             renderAboutStats();
-            renderSearchRows();
         }
 
         function readRepeater(section) {
@@ -1046,19 +1029,7 @@
                         }))
                         .filter((item) => item.value || item.label),
                 },
-                searchResults: {
-                    title: document.getElementById('search-title-input').value.trim(),
-                    description: document.getElementById('search-description-input').value.trim(),
-                    rows: readRepeater('search-row')
-                        .map((item) => ({
-                            query: item.querySelector('[data-field="query"]').value.trim(),
-                            clicks: item.querySelector('[data-field="clicks"]').value.trim(),
-                            impressions: item.querySelector('[data-field="impressions"]').value.trim(),
-                            position: item.querySelector('[data-field="position"]').value.trim(),
-                            notes: item.querySelector('[data-field="notes"]').value.trim(),
-                        }))
-                        .filter((item) => item.query || item.clicks || item.impressions || item.position || item.notes),
-                },
+                searchResults: state.content.searchResults,
             };
         }
 
@@ -1127,7 +1098,6 @@
             if (type === 'portfolio') state.content.portfolio.items.push(blankPortfolio());
             if (type === 'feature') state.content.about.features.push(blankFeature());
             if (type === 'stat') state.content.about.stats.push(blankStat());
-            if (type === 'search-row') state.content.searchResults.rows.push(blankSearchRow());
 
             renderForm();
             clearMessage();
@@ -1140,7 +1110,6 @@
             if (type === 'portfolio') state.content.portfolio.items.splice(index, 1);
             if (type === 'feature') state.content.about.features.splice(index, 1);
             if (type === 'stat') state.content.about.stats.splice(index, 1);
-            if (type === 'search-row') state.content.searchResults.rows.splice(index, 1);
 
             renderForm();
             clearMessage();
@@ -1207,9 +1176,6 @@
         gscRefreshButton.addEventListener('click', loadSearchConsole);
         gscDaysSelect.addEventListener('change', () => {
             if (state.activeTab === 'search-results') loadSearchConsole();
-        });
-        gscLogoutButton.addEventListener('click', async () => {
-            logoutButton.click();
         });
 
         logoutButton.addEventListener('click', async () => {
