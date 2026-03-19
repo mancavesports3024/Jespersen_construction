@@ -1,70 +1,72 @@
 const defaultContent = {
   services: {
     eyebrow: 'What We Do',
-    heading: 'Our Services',
-    description: 'Quality home improvement for your deck, siding, and remodeling needs',
+    heading: 'Storm-Ready Exterior Services',
+    description:
+      'Roofing, siding, gutters, and storm restoration with AI-backed insurance support and job-site protection that keeps your landscaping and property safe.',
     items: [
       {
-        icon: 'deck',
-        title: 'Deck Builds',
+        icon: 'remodel',
+        title: 'Storm-Damaged Roofing',
         description:
-          'Custom decks built to last. From simple platforms to multi-level designs with railings and stairs.',
+          'Full roof replacement and repair after hail or wind, installed to code with upgraded components where insurance allows.',
       },
       {
         icon: 'siding',
-        title: 'Siding',
+        title: 'Siding, Gutters & Exterior',
         description:
-          'New siding installation and replacement. Vinyl, wood, or composite-we help you choose and install the right option.',
+          'Impact-resistant siding, seamless gutters, wraps, and trim so the whole exterior is restored — not just the shingles.',
       },
       {
-        icon: 'remodel',
-        title: 'Remodels',
+        icon: 'deck',
+        title: 'AI-Assisted Insurance Claims',
         description:
-          'Kitchen updates, bathroom renovations, room additions, and whole-home remodels. We handle it all.',
+          'AI tools and adjuster-ready documentation to find missed line items, match local code, and help you secure a fair, complete claim.',
       },
     ],
   },
   portfolio: {
-    eyebrow: 'Portfolio',
-    heading: 'Our Work',
-    description: "Projects we're proud to have built",
+    eyebrow: 'Project Gallery',
+    heading: 'Storm Damage In — Code-Correct Out',
+    description:
+      "A few examples of roofs, exteriors, and storm restorations we've brought back to better-than-before condition.",
     items: [
       {
-        title: 'Custom Deck',
-        subtitle: 'Backyard deck build',
+        title: 'Hail-Damaged Roof Replacement',
+        subtitle: 'Architectural shingles, code-correct ventilation, full cleanup',
         imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
       },
       {
-        title: 'Siding Replacement',
-        subtitle: 'Vinyl siding installation',
+        title: 'Siding & Gutter Restoration',
+        subtitle: 'Storm-damaged vinyl siding replaced with upgraded system',
         imageUrl: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80',
       },
       {
-        title: 'Kitchen Remodel',
-        subtitle: 'Full renovation',
+        title: 'Full Exterior Storm Rebuild',
+        subtitle: 'Roof, fascia, soffit, gutters, and wraps brought back to code',
         imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80',
       },
       {
-        title: 'Deck & Siding',
-        subtitle: 'Exterior refresh',
+        title: 'Protected Landscaping Project',
+        subtitle: 'Catch-all system kept rock beds and plants debris-free',
         imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80',
       },
     ],
   },
   about: {
     eyebrow: 'About Us',
-    heading: 'Built on Integrity & Craftsmanship',
+    heading: 'Code-Correct Craftsmanship, Backed by AI',
     body:
-      'Jespersen Erections is a small, hands-on company. We take pride in every deck, siding job, and remodel-treating your home like our own.',
+      'Jespersen Erections is a storm-restoration contractor that blends hands-on craftsmanship with modern AI tools. We document every layer, build to code, and protect your property with a full catch-all system so the only thing we leave behind is a finished project.',
     features: [
-      'Licensed & insured',
-      'Quality craftsmanship',
-      'Personal, direct communication',
-      'Fair, honest pricing',
+      'Licensed, insured, and focused on storm-restoration work',
+      'AI-assisted supplementing to find missed items in your insurance estimate',
+      'Code-correct details: WRB, flashing, frieze wrap, window bucks, drainage planes, and more',
+      'Catch-all debris system to protect landscaping, driveways, and neighboring properties',
     ],
     stats: [
-      { value: 'Local', label: 'Community Focused' },
-      { value: 'Quality', label: 'First Priority' },
+      { value: 'Storm', label: 'Restoration Focused' },
+      { value: 'Code', label: 'Correct Every Time' },
     ],
   },
   searchResults: {
