@@ -29,6 +29,22 @@ Add these in `Project -> Settings -> Environment Variables`:
 - `BLOB_READ_WRITE_TOKEN`
   - Create a Vercel Blob store and copy its read/write token here
 
+### Google Search Console (Search Results tab)
+
+- `GSC_SITE_URL`
+  - Must match your Search Console property exactly
+  - Examples:
+    - `https://example.com/` (URL-prefix property)
+    - `sc-domain:example.com` (domain property)
+
+Use one of these:
+
+- `GOOGLE_SERVICE_ACCOUNT_KEY_BASE64` (recommended)
+  - Base64-encoded full service-account JSON key
+
+- `GOOGLE_SERVICE_ACCOUNT_KEY`
+  - Raw service-account JSON key (minified or normal)
+
 ## Deploy
 
 1. Redeploy the Vercel project after adding the environment variables.

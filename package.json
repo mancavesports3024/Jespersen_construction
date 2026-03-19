@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/mancavesports3024/Jespersen_construction#readme",
   "dependencies": {
-    "@vercel/blob": "^2.3.1"
+    "@vercel/blob": "^2.3.1",
+    "googleapis": "^171.4.0"
   }
 }

@@ -224,6 +224,88 @@
             border: 1px solid #a7f3d0;
         }
 
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card {
+            padding: 1.1rem 1.2rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card:nth-child(2) {
+            border-left-color: #06b6d4;
+        }
+
+        .stat-card:nth-child(3) {
+            border-left-color: #f59e0b;
+        }
+
+        .stat-card:nth-child(4) {
+            border-left-color: #a855f7;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.92rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .table-card {
+            overflow: hidden;
+        }
+
+        .table-card h3 {
+            padding: 1rem 1.1rem;
+            border-bottom: 1px solid #e2e8f0;
+            margin: 0;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+            font-size: 0.92rem;
+        }
+
+        th {
+            color: var(--muted);
+            font-size: 0.78rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            background: #f8fafc;
+        }
+
+        td.number {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .empty-state {
+            padding: 1.2rem;
+            color: var(--muted);
+        }
+
         .section-title {
             display: flex;
             justify-content: space-between;
@@ -289,6 +371,10 @@
 
         @media (max-width: 960px) {
             .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -425,8 +511,91 @@
                 <article class="panel">
                     <div class="section-title">
                         <div>
-                            <h2>Search Results Data</h2>
-                            <p class="muted">Keep manual search notes, keywords, and performance snapshots in the admin only.</p>
+                            <h2>Google Search Console</h2>
+                            <p id="gsc-date-range" class="muted">Loading data…</p>
+                        </div>
+                        <div class="toolbar">
+                            <label class="muted" for="gsc-days" style="font-weight: 700;">Period</label>
+                            <select id="gsc-days">
+                                <option value="7">Last 7 days</option>
+                                <option value="14">Last 14 days</option>
+                                <option value="28" selected>Last 28 days</option>
+                                <option value="90">Last 90 days</option>
+                            </select>
+                            <button id="gsc-refresh" class="button button-secondary" type="button">Refresh</button>
+                        </div>
+                    </div>
+
+                    <div id="gsc-error" class="message error hidden"></div>
+                    <div id="gsc-info" class="message info hidden"></div>
+
+                    <section class="stats-grid">
+                        <article class="stat-card card">
+                            <p class="stat-label">Clicks</p>
+                            <p id="gsc-clicks" class="stat-value">0</p>
+                        </article>
+                        <article class="stat-card card">
+                            <p class="stat-label">Impressions</p>
+                            <p id="gsc-impressions" class="stat-value">0</p>
+                        </article>
+                        <article class="stat-card card">
+                            <p class="stat-label">Avg. CTR</p>
+                            <p id="gsc-ctr" class="stat-value">0%</p>
+                        </article>
+                        <article class="stat-card card">
+                            <p class="stat-label">Avg. Position</p>
+                            <p id="gsc-position" class="stat-value">0.0</p>
+                        </article>
+                    </section>
+
+                    <section class="grid">
+                        <article class="table-card card">
+                            <h3>Top search queries</h3>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Query</th>
+                                            <th>Clicks</th>
+                                            <th>Impressions</th>
+                                            <th>CTR</th>
+                                            <th>Position</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gsc-queries-body"></tbody>
+                                </table>
+                            </div>
+                            <p id="gsc-queries-empty" class="empty-state hidden">No query data for this period.</p>
+                        </article>
+
+                        <article class="table-card card">
+                            <h3>Top pages</h3>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Page</th>
+                                            <th>Clicks</th>
+                                            <th>Impressions</th>
+                                            <th>CTR</th>
+                                            <th>Position</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gsc-pages-body"></tbody>
+                                </table>
+                            </div>
+                            <p id="gsc-pages-empty" class="empty-state hidden">No page data for this period.</p>
+                        </article>
+                    </section>
+                </article>
+            </section>
+
+            <section class="grid">
+                <article class="panel">
+                    <div class="section-title">
+                        <div>
+                            <h2>Search Notes</h2>
+                            <p class="muted">Keep manual notes (keywords to target, pages to improve, etc.).</p>
                         </div>
                         <button class="button button-secondary" type="button" data-add="search-row">Add Row</button>
                     </div>
@@ -460,10 +629,13 @@
             adjustments: document.getElementById('panel-adjustments'),
             'search-results': document.getElementById('panel-search-results'),
         };
+        const gscDaysSelect = document.getElementById('gsc-days');
+        const gscRefreshButton = document.getElementById('gsc-refresh');
 
         const state = {
             content: null,
             activeTab: 'adjustments',
+            gscLoaded: false,
         };
 
         function escapeHtml(value) {
@@ -534,6 +706,118 @@
             Object.entries(tabPanels).forEach(([name, panel]) => {
                 panel.classList.toggle('active', name === tabName);
             });
+
+            if (tabName === 'search-results' && !state.gscLoaded) {
+                state.gscLoaded = true;
+                loadSearchConsole();
+            }
+        }
+
+        function formatNumber(value) {
+            return Number(value || 0).toLocaleString();
+        }
+
+        function formatPercent(value) {
+            return `${(Number(value || 0) * 100).toFixed(2)}%`;
+        }
+
+        function formatPosition(value) {
+            return Number(value || 0).toFixed(1);
+        }
+
+        function setGscError(message) {
+            const box = document.getElementById('gsc-error');
+            box.textContent = message || '';
+            box.classList.toggle('hidden', !message);
+        }
+
+        function setGscInfo(message) {
+            const box = document.getElementById('gsc-info');
+            box.textContent = message || '';
+            box.classList.toggle('hidden', !message);
+        }
+
+        function renderRows(targetBody, emptyState, rows, cells) {
+            if (!rows.length) {
+                targetBody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            targetBody.innerHTML = rows.map((row) => {
+                return `<tr>${cells.map((cell) => {
+                    const value = typeof cell.render === 'function' ? cell.render(row) : row[cell.key];
+                    const className = cell.className ? ` class="${cell.className}"` : '';
+                    return `<td${className}>${escapeHtml(value)}</td>`;
+                }).join('')}</tr>`;
+            }).join('');
+        }
+
+        function renderSearchConsole(data) {
+            document.getElementById('gsc-date-range').textContent = `${data.dateRange.start} - ${data.dateRange.end}`;
+            document.getElementById('gsc-clicks').textContent = formatNumber(data.summary.clicks);
+            document.getElementById('gsc-impressions').textContent = formatNumber(data.summary.impressions);
+            document.getElementById('gsc-ctr').textContent = formatPercent(data.summary.ctr);
+            document.getElementById('gsc-position').textContent = formatPosition(data.summary.position);
+
+            renderRows(
+                document.getElementById('gsc-queries-body'),
+                document.getElementById('gsc-queries-empty'),
+                data.topQueries || [],
+                [
+                    { key: 'query' },
+                    { key: 'clicks', className: 'number' },
+                    { key: 'impressions', className: 'number' },
+                    { className: 'number', render: (row) => formatPercent(row.ctr) },
+                    { className: 'number', render: (row) => formatPosition(row.position) }
+                ]
+            );
+
+            renderRows(
+                document.getElementById('gsc-pages-body'),
+                document.getElementById('gsc-pages-empty'),
+                data.topPages || [],
+                [
+                    { render: (row) => String(row.page || '').replace(/^https?:\/\/[^/]+/, '') || '/' },
+                    { key: 'clicks', className: 'number' },
+                    { key: 'impressions', className: 'number' },
+                    { className: 'number', render: (row) => formatPercent(row.ctr) },
+                    { className: 'number', render: (row) => formatPosition(row.position) }
+                ]
+            );
+        }
+
+        async function loadSearchConsole() {
+            setGscError('');
+            gscRefreshButton.disabled = true;
+            setGscInfo('Loading Google Search Console data...');
+
+            try {
+                const response = await fetch(`/api/admin/search-console?days=${encodeURIComponent(gscDaysSelect.value)}`, {
+                    credentials: 'same-origin'
+                });
+                const data = await response.json();
+
+                if (response.status === 401) {
+                    showLogin('Your session expired. Please log in again.');
+                    return;
+                }
+
+                if (!response.ok) {
+                    setGscError(data.error || 'Unable to load Search Console data.');
+                    setGscInfo('');
+                    return;
+                }
+
+                renderSearchConsole(data);
+                setGscInfo('');
+            } catch (error) {
+                setGscError('Network error while loading Search Console data.');
+                setGscInfo('');
+            } finally {
+                gscRefreshButton.disabled = false;
+            }
         }
 
         function renderServices() {
@@ -887,6 +1171,10 @@
         });
 
         saveButton.addEventListener('click', saveContent);
+        gscRefreshButton.addEventListener('click', loadSearchConsole);
+        gscDaysSelect.addEventListener('change', () => {
+            if (state.activeTab === 'search-results') loadSearchConsole();
+        });
 
         logoutButton.addEventListener('click', async () => {
             await fetch('/api/admin/logout', {
