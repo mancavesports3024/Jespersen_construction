@@ -1,4 +1,5 @@
 const { put } = require('@vercel/blob');
+const crypto = require('crypto');
 const { isAuthenticated } = require('../_lib/admin-auth');
 
 function sanitizeFilename(filename) {
@@ -52,11 +53,12 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: 'Image is too large. Max upload size is 8MB.' });
     }
 
-    const path = `uploads/${Date.now()}-${filename}`;
+    const uniqueId = crypto.randomUUID();
+    const path = `uploads/${uniqueId}-${filename}`;
     const blob = await put(path, buffer, {
       token,
       access: 'public',
-      addRandomSuffix: true,
+      addRandomSuffix: false,
       contentType,
     });
 
