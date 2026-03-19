@@ -127,6 +127,7 @@ async function saveContent(input) {
   await put(CONTENT_BLOB_PATH, JSON.stringify(normalized, null, 2), {
     access: 'public',
     addRandomSuffix: false,
+    allowOverwrite: true,
     contentType: 'application/json; charset=utf-8',
     token,
   });
