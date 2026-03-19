@@ -54,15 +54,33 @@ module.exports = async function handler(req, res) {
     }
 
     const uniqueId = crypto.randomUUID();
-    const path = `uploads/${uniqueId}-${filename}`;
-    const blob = await put(path, buffer, {
-      token,
-      access: 'public',
-      addRandomSuffix: false,
-      contentType,
-    });
+    const basePath = `uploads/${uniqueId}-${filename}`;
 
-    return res.status(200).json({ ok: true, url: blob.url });
+    try {
+      const blob = await put(basePath, buffer, {
+        token,
+        access: 'public',
+        addRandomSuffix: false,
+        contentType,
+      });
+
+      return res.status(200).json({ ok: true, url: blob.url });
+    } catch (innerError) {
+      // If Vercel still reports a duplicate key for some reason, fall back to a random suffix
+      const message = innerError?.message || '';
+      if (!/already exists/i.test(message)) {
+        throw innerError;
+      }
+
+      const blob = await put(basePath, buffer, {
+        token,
+        access: 'public',
+        addRandomSuffix: true,
+        contentType,
+      });
+
+      return res.status(200).json({ ok: true, url: blob.url });
+    }
   } catch (error) {
     return res.status(500).json({ error: error?.message || 'Failed to upload image.' });
   }

@@ -943,6 +943,14 @@
 
         async function uploadPortfolioImage(index, file) {
             if (!file) return;
+
+            // Prevent double-submits for the same slot while an upload is in-flight
+            const uploadingFlagKey = `__uploading_${index}`;
+            if (state[uploadingFlagKey]) {
+                setUploadStatus(index, 'Upload already in progress...', true);
+                return;
+            }
+            state[uploadingFlagKey] = true;
             setUploadStatus(index, 'Uploading image...');
 
             try {
@@ -985,6 +993,8 @@
                 setUploadStatus(index, 'Upload complete. Image URL added.');
             } catch (error) {
                 setUploadStatus(index, error.message || 'Upload failed.', true);
+            } finally {
+                state[uploadingFlagKey] = false;
             }
         }
 
