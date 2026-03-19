@@ -413,6 +413,32 @@
             margin-top: 0.35rem;
         }
 
+        .upload-dropzone {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 0.85rem;
+            background: #f8fafc;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.9rem;
+            transition: border-color 0.15s ease, background 0.15s ease;
+        }
+
+        .upload-dropzone.is-dragover {
+            border-color: #93c5fd;
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        .upload-actions {
+            margin-top: 0.6rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
         @media (max-width: 960px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -895,9 +921,71 @@
                         <label>Image URL</label>
                         <input data-field="imageUrl" type="url" value="${escapeHtml(item.imageUrl)}">
                         <p class="helper">Paste a direct image URL for the project photo.</p>
+                        <div class="upload-dropzone" data-upload-dropzone data-index="${index}">
+                            Drag & drop image here, or upload from your device.
+                            <div class="upload-actions">
+                                <input data-upload-input data-index="${index}" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+                                <button class="button button-secondary" type="button" data-upload-button data-index="${index}">Upload Image</button>
+                            </div>
+                            <p class="helper" data-upload-status data-index="${index}"></p>
+                        </div>
                     </div>
                 </section>
             `).join('');
+        }
+
+        function setUploadStatus(index, message, isError = false) {
+            const el = document.querySelector(`[data-upload-status][data-index="${index}"]`);
+            if (!el) return;
+            el.textContent = message || '';
+            el.style.color = isError ? 'var(--danger)' : 'var(--muted)';
+        }
+
+        async function uploadPortfolioImage(index, file) {
+            if (!file) return;
+            setUploadStatus(index, 'Uploading image...');
+
+            try {
+                const dataBase64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const result = String(reader.result || '');
+                        const parts = result.split(',');
+                        resolve(parts[1] || '');
+                    };
+                    reader.onerror = () => reject(new Error('Unable to read file.'));
+                    reader.readAsDataURL(file);
+                });
+
+                const response = await fetch('/api/admin/upload-image', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        filename: file.name,
+                        contentType: file.type,
+                        dataBase64,
+                    }),
+                });
+
+                const data = await response.json();
+                if (response.status === 401) {
+                    showLogin('Your session expired. Please log in again.');
+                    return;
+                }
+                if (!response.ok) {
+                    throw new Error(data.error || 'Upload failed.');
+                }
+
+                const scopedInput = document.querySelector(`[data-section="portfolio"][data-index="${index}"] [data-field="imageUrl"]`);
+                if (scopedInput) {
+                    scopedInput.value = data.url;
+                }
+
+                setUploadStatus(index, 'Upload complete. Image URL added.');
+            } catch (error) {
+                setUploadStatus(index, error.message || 'Upload failed.', true);
+            }
         }
 
         function renderAboutFeatures() {
@@ -1126,6 +1214,17 @@
                 return;
             }
 
+            if (event.target.hasAttribute('data-upload-button')) {
+                const uploadIndex = event.target.dataset.index;
+                const fileInput = document.querySelector(`[data-upload-input][data-index="${uploadIndex}"]`);
+                if (fileInput?.files?.[0]) {
+                    uploadPortfolioImage(uploadIndex, fileInput.files[0]);
+                } else {
+                    setUploadStatus(uploadIndex, 'Choose a file first.', true);
+                }
+                return;
+            }
+
             const tabName = event.target.dataset.tab;
             if (tabName) {
                 setActiveTab(tabName);
@@ -1136,6 +1235,43 @@
             const index = Number.parseInt(event.target.dataset.index || '-1', 10);
             if (removeType && index >= 0) {
                 removeItem(removeType, index);
+            }
+        });
+
+        document.body.addEventListener('dragover', (event) => {
+            const dropzone = event.target.closest('[data-upload-dropzone]');
+            if (!dropzone) return;
+            event.preventDefault();
+            dropzone.classList.add('is-dragover');
+        });
+
+        document.body.addEventListener('dragleave', (event) => {
+            const dropzone = event.target.closest('[data-upload-dropzone]');
+            if (!dropzone) return;
+            dropzone.classList.remove('is-dragover');
+        });
+
+        document.body.addEventListener('drop', (event) => {
+            const dropzone = event.target.closest('[data-upload-dropzone]');
+            if (!dropzone) return;
+            event.preventDefault();
+            dropzone.classList.remove('is-dragover');
+
+            const index = dropzone.dataset.index;
+            const file = event.dataTransfer?.files?.[0];
+            if (!file) {
+                setUploadStatus(index, 'No file detected.', true);
+                return;
+            }
+            uploadPortfolioImage(index, file);
+        });
+
+        document.body.addEventListener('change', (event) => {
+            if (!event.target.hasAttribute('data-upload-input')) return;
+            const index = event.target.dataset.index;
+            const file = event.target.files?.[0];
+            if (file) {
+                uploadPortfolioImage(index, file);
             }
         });
 
