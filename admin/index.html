@@ -233,6 +233,31 @@
             margin-bottom: 1rem;
         }
 
+        .tabs {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+        }
+
+        .tab-button {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #3b82f6 0%, var(--primary) 100%);
+            color: #fff;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
         .repeater-list {
             display: grid;
             gap: 1rem;
@@ -303,109 +328,120 @@
 
         <div id="dashboard-message" class="message info hidden"></div>
 
-        <section class="grid">
-            <article class="panel">
-                <div class="section-title">
-                    <div>
-                        <h2>Services</h2>
-                        <p class="muted">Edit the section header and service cards shown on the homepage.</p>
-                    </div>
-                    <button class="button button-secondary" type="button" data-add="service">Add Service</button>
-                </div>
-                <div class="field">
-                    <label for="services-eyebrow-input">Eyebrow</label>
-                    <input id="services-eyebrow-input" type="text">
-                </div>
-                <div class="field">
-                    <label for="services-heading-input">Heading</label>
-                    <input id="services-heading-input" type="text">
-                </div>
-                <div class="field">
-                    <label for="services-description-input">Description</label>
-                    <textarea id="services-description-input"></textarea>
-                </div>
-                <div id="services-list" class="repeater-list"></div>
-            </article>
+        <div class="tabs" role="tablist" aria-label="Admin sections">
+            <button id="tab-adjustments" class="button tab-button active" type="button" role="tab" aria-selected="true" aria-controls="panel-adjustments" data-tab="adjustments">Adjustments</button>
+            <button id="tab-search-results" class="button tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-search-results" data-tab="search-results">Search Results</button>
+        </div>
 
-            <article class="panel">
-                <div class="section-title">
-                    <div>
-                        <h2>Our Work</h2>
-                        <p class="muted">Manage project cards and their image URLs.</p>
+        <section id="panel-adjustments" class="tab-panel active" role="tabpanel" aria-labelledby="tab-adjustments">
+            <section class="grid">
+                <article class="panel">
+                    <div class="section-title">
+                        <div>
+                            <h2>Services</h2>
+                            <p class="muted">Edit the section header and service cards shown on the homepage.</p>
+                        </div>
+                        <button class="button button-secondary" type="button" data-add="service">Add Service</button>
                     </div>
-                    <button class="button button-secondary" type="button" data-add="portfolio">Add Project</button>
-                </div>
-                <div class="field">
-                    <label for="portfolio-eyebrow-input">Eyebrow</label>
-                    <input id="portfolio-eyebrow-input" type="text">
-                </div>
-                <div class="field">
-                    <label for="portfolio-heading-input">Heading</label>
-                    <input id="portfolio-heading-input" type="text">
-                </div>
-                <div class="field">
-                    <label for="portfolio-description-input">Description</label>
-                    <textarea id="portfolio-description-input"></textarea>
-                </div>
-                <div id="portfolio-list" class="repeater-list"></div>
-            </article>
+                    <div class="field">
+                        <label for="services-eyebrow-input">Eyebrow</label>
+                        <input id="services-eyebrow-input" type="text">
+                    </div>
+                    <div class="field">
+                        <label for="services-heading-input">Heading</label>
+                        <input id="services-heading-input" type="text">
+                    </div>
+                    <div class="field">
+                        <label for="services-description-input">Description</label>
+                        <textarea id="services-description-input"></textarea>
+                    </div>
+                    <div id="services-list" class="repeater-list"></div>
+                </article>
+
+                <article class="panel">
+                    <div class="section-title">
+                        <div>
+                            <h2>Our Work</h2>
+                            <p class="muted">Manage project cards and their image URLs.</p>
+                        </div>
+                        <button class="button button-secondary" type="button" data-add="portfolio">Add Project</button>
+                    </div>
+                    <div class="field">
+                        <label for="portfolio-eyebrow-input">Eyebrow</label>
+                        <input id="portfolio-eyebrow-input" type="text">
+                    </div>
+                    <div class="field">
+                        <label for="portfolio-heading-input">Heading</label>
+                        <input id="portfolio-heading-input" type="text">
+                    </div>
+                    <div class="field">
+                        <label for="portfolio-description-input">Description</label>
+                        <textarea id="portfolio-description-input"></textarea>
+                    </div>
+                    <div id="portfolio-list" class="repeater-list"></div>
+                </article>
+            </section>
+
+            <section class="grid">
+                <article class="panel">
+                    <div class="section-title">
+                        <div>
+                            <h2>About</h2>
+                            <p class="muted">Update the main paragraph, feature bullets, and highlight stats.</p>
+                        </div>
+                        <div class="toolbar">
+                            <button class="button button-secondary" type="button" data-add="feature">Add Feature</button>
+                            <button class="button button-secondary" type="button" data-add="stat">Add Stat</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="about-eyebrow-input">Eyebrow</label>
+                        <input id="about-eyebrow-input" type="text">
+                    </div>
+                    <div class="field">
+                        <label for="about-heading-input">Heading</label>
+                        <input id="about-heading-input" type="text">
+                    </div>
+                    <div class="field">
+                        <label for="about-body-input">Body</label>
+                        <textarea id="about-body-input"></textarea>
+                    </div>
+                    <div class="stack">
+                        <div>
+                            <h3>Features</h3>
+                            <div id="about-features-list" class="repeater-list"></div>
+                        </div>
+                        <div>
+                            <h3>Stats</h3>
+                            <div id="about-stats-list" class="repeater-list"></div>
+                        </div>
+                    </div>
+                </article>
+            </section>
         </section>
 
-        <section class="grid">
-            <article class="panel">
-                <div class="section-title">
-                    <div>
-                        <h2>About</h2>
-                        <p class="muted">Update the main paragraph, feature bullets, and highlight stats.</p>
+        <section id="panel-search-results" class="tab-panel" role="tabpanel" aria-labelledby="tab-search-results">
+            <section class="grid">
+                <article class="panel">
+                    <div class="section-title">
+                        <div>
+                            <h2>Search Results Data</h2>
+                            <p class="muted">Keep manual search notes, keywords, and performance snapshots in the admin only.</p>
+                        </div>
+                        <button class="button button-secondary" type="button" data-add="search-row">Add Row</button>
                     </div>
-                    <div class="toolbar">
-                        <button class="button button-secondary" type="button" data-add="feature">Add Feature</button>
-                        <button class="button button-secondary" type="button" data-add="stat">Add Stat</button>
+                    <div class="field">
+                        <label for="search-title-input">Section Title</label>
+                        <input id="search-title-input" type="text">
                     </div>
-                </div>
-                <div class="field">
-                    <label for="about-eyebrow-input">Eyebrow</label>
-                    <input id="about-eyebrow-input" type="text">
-                </div>
-                <div class="field">
-                    <label for="about-heading-input">Heading</label>
-                    <input id="about-heading-input" type="text">
-                </div>
-                <div class="field">
-                    <label for="about-body-input">Body</label>
-                    <textarea id="about-body-input"></textarea>
-                </div>
-                <div class="stack">
-                    <div>
-                        <h3>Features</h3>
-                        <div id="about-features-list" class="repeater-list"></div>
+                    <div class="field">
+                        <label for="search-description-input">Description</label>
+                        <textarea id="search-description-input"></textarea>
                     </div>
-                    <div>
-                        <h3>Stats</h3>
-                        <div id="about-stats-list" class="repeater-list"></div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="panel">
-                <div class="section-title">
-                    <div>
-                        <h2>Search Results Data</h2>
-                        <p class="muted">Keep manual search notes, keywords, and performance snapshots in the admin only.</p>
-                    </div>
-                    <button class="button button-secondary" type="button" data-add="search-row">Add Row</button>
-                </div>
-                <div class="field">
-                    <label for="search-title-input">Section Title</label>
-                    <input id="search-title-input" type="text">
-                </div>
-                <div class="field">
-                    <label for="search-description-input">Description</label>
-                    <textarea id="search-description-input"></textarea>
-                </div>
-                <p class="helper">This data is stored for admin use and is not shown on the public homepage.</p>
-                <div id="search-results-list" class="repeater-list"></div>
-            </article>
+                    <p class="helper">This data is stored for admin use and is not shown on the public homepage.</p>
+                    <div id="search-results-list" class="repeater-list"></div>
+                </article>
+            </section>
         </section>
     </main>
 
@@ -419,9 +455,15 @@
         const saveButton = document.getElementById('save-button');
         const reloadButton = document.getElementById('reload-button');
         const logoutButton = document.getElementById('logout-button');
+        const tabButtons = Array.from(document.querySelectorAll('[data-tab]'));
+        const tabPanels = {
+            adjustments: document.getElementById('panel-adjustments'),
+            'search-results': document.getElementById('panel-search-results'),
+        };
 
         const state = {
             content: null,
+            activeTab: 'adjustments',
         };
 
         function escapeHtml(value) {
@@ -478,6 +520,20 @@
             loginView.classList.add('hidden');
             dashboardView.classList.remove('hidden');
             loginMessage.classList.add('hidden');
+        }
+
+        function setActiveTab(tabName) {
+            state.activeTab = tabName;
+
+            tabButtons.forEach((button) => {
+                const isActive = button.dataset.tab === tabName;
+                button.classList.toggle('active', isActive);
+                button.setAttribute('aria-selected', String(isActive));
+            });
+
+            Object.entries(tabPanels).forEach(([name, panel]) => {
+                panel.classList.toggle('active', name === tabName);
+            });
         }
 
         function renderServices() {
@@ -780,6 +836,12 @@
                 return;
             }
 
+            const tabName = event.target.dataset.tab;
+            if (tabName) {
+                setActiveTab(tabName);
+                return;
+            }
+
             const removeType = event.target.dataset.remove;
             const index = Number.parseInt(event.target.dataset.index || '-1', 10);
             if (removeType && index >= 0) {
@@ -852,6 +914,7 @@
             showLogin('');
         }
 
+        setActiveTab(state.activeTab);
         checkSession();
     </script>
 </body>
