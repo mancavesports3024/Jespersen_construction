@@ -45,6 +45,21 @@ Use one of these:
 - `GOOGLE_SERVICE_ACCOUNT_KEY`
   - Raw service-account JSON key (minified or normal)
 
+### Service Request Email Notifications
+
+This project now matches the same email setup pattern used in your other site.
+Add these so contact form submissions send an email:
+
+- `EMAIL_USER`
+  - Your Gmail address used to send notifications
+
+- `EMAIL_PASSWORD`
+  - Gmail app password (16 characters, no spaces)
+
+- `RECIPIENT_EMAIL` (optional)
+  - Where you want notifications delivered
+  - Defaults to `Jespersenerections@gmail.com` if not set
+
 ## Deploy
 
 1. Redeploy the Vercel project after adding the environment variables.

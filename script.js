@@ -173,22 +173,64 @@ function initContactForm() {
 
     if (!form) return;
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // In production, you would send this to a server/API
-        // For now, show a success message
         const btn = form.querySelector('button[type="submit"]');
         const originalText = btn.textContent;
-        btn.textContent = 'Message Sent!';
+        const status = ensureContactStatusEl(form);
+        status.textContent = 'Sending request...';
+        status.style.color = '';
+
+        const payload = {
+            name: form.querySelector('#name')?.value?.trim() || '',
+            email: form.querySelector('#email')?.value?.trim() || '',
+            phone: form.querySelector('#phone')?.value?.trim() || '',
+            message: form.querySelector('#message')?.value?.trim() || '',
+        };
+
+        btn.textContent = 'Sending...';
         btn.disabled = true;
 
-        setTimeout(() => {
-            btn.textContent = originalText;
-            btn.disabled = false;
+        try {
+            const response = await fetch('/api/request-service', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || 'Unable to send request right now.');
+            }
+
+            btn.textContent = 'Request Sent!';
+            status.textContent = 'Your request was sent. We will reach out soon.';
+            status.style.color = '#047857';
             form.reset();
-        }, 3000);
+        } catch (error) {
+            btn.textContent = originalText;
+            status.textContent = error?.message || 'Unable to send request right now.';
+            status.style.color = '#b91c1c';
+        } finally {
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }, 2000);
+        }
     });
+}
+
+function ensureContactStatusEl(form) {
+    let status = form.querySelector('.contact-form-status');
+    if (!status) {
+        status = document.createElement('p');
+        status.className = 'contact-form-status';
+        status.setAttribute('aria-live', 'polite');
+        status.style.marginTop = '0.75rem';
+        status.style.fontWeight = '600';
+        form.appendChild(status);
+    }
+    return status;
 }
 
 /**
