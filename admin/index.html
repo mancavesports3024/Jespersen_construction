@@ -101,6 +101,10 @@
             flex-wrap: wrap;
         }
 
+        .dashboard-header h1 {
+            margin-bottom: 0.35rem;
+        }
+
         .toolbar {
             display: flex;
             gap: 0.75rem;
@@ -340,6 +344,36 @@
             display: block;
         }
 
+        .gsc-shell {
+            background: transparent;
+        }
+
+        .gsc-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .gsc-header h2 {
+            margin-bottom: 0.35rem;
+        }
+
+        .gsc-controls {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            min-width: 280px;
+        }
+
+        .gsc-controls select {
+            width: 220px;
+        }
+
         .repeater-list {
             display: grid;
             gap: 1rem;
@@ -507,87 +541,85 @@
         </section>
 
         <section id="panel-search-results" class="tab-panel" role="tabpanel" aria-labelledby="tab-search-results">
-            <section class="grid">
-                <article class="panel">
-                    <div class="section-title">
-                        <div>
-                            <h2>Google Search Console</h2>
-                            <p id="gsc-date-range" class="muted">Loading data…</p>
-                        </div>
-                        <div class="toolbar">
-                            <label class="muted" for="gsc-days" style="font-weight: 700;">Period</label>
-                            <select id="gsc-days">
-                                <option value="7">Last 7 days</option>
-                                <option value="14">Last 14 days</option>
-                                <option value="28" selected>Last 28 days</option>
-                                <option value="90">Last 90 days</option>
-                            </select>
-                            <button id="gsc-refresh" class="button button-secondary" type="button">Refresh</button>
-                        </div>
+            <section class="gsc-shell">
+                <div class="gsc-header">
+                    <div>
+                        <h2>Search Console</h2>
+                        <p id="gsc-date-range" class="muted">Loading data…</p>
                     </div>
+                    <div class="gsc-controls">
+                        <select id="gsc-days" aria-label="Date range">
+                            <option value="7">Last 7 days</option>
+                            <option value="14">Last 14 days</option>
+                            <option value="28" selected>Last 28 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                        <button id="gsc-refresh" class="button button-primary" type="button">Refresh</button>
+                        <button id="gsc-logout" class="button button-secondary" type="button">Logout</button>
+                    </div>
+                </div>
 
-                    <div id="gsc-error" class="message error hidden"></div>
-                    <div id="gsc-info" class="message info hidden"></div>
+                <div id="gsc-error" class="message error hidden"></div>
+                <div id="gsc-info" class="message info hidden"></div>
 
-                    <section class="stats-grid">
-                        <article class="stat-card card">
-                            <p class="stat-label">Clicks</p>
-                            <p id="gsc-clicks" class="stat-value">0</p>
-                        </article>
-                        <article class="stat-card card">
-                            <p class="stat-label">Impressions</p>
-                            <p id="gsc-impressions" class="stat-value">0</p>
-                        </article>
-                        <article class="stat-card card">
-                            <p class="stat-label">Avg. CTR</p>
-                            <p id="gsc-ctr" class="stat-value">0%</p>
-                        </article>
-                        <article class="stat-card card">
-                            <p class="stat-label">Avg. Position</p>
-                            <p id="gsc-position" class="stat-value">0.0</p>
-                        </article>
-                    </section>
+                <section class="stats-grid">
+                    <article class="stat-card card">
+                        <p class="stat-label">Clicks</p>
+                        <p id="gsc-clicks" class="stat-value">0</p>
+                    </article>
+                    <article class="stat-card card">
+                        <p class="stat-label">Impressions</p>
+                        <p id="gsc-impressions" class="stat-value">0</p>
+                    </article>
+                    <article class="stat-card card">
+                        <p class="stat-label">Avg. CTR</p>
+                        <p id="gsc-ctr" class="stat-value">0%</p>
+                    </article>
+                    <article class="stat-card card">
+                        <p class="stat-label">Avg. Position</p>
+                        <p id="gsc-position" class="stat-value">0.0</p>
+                    </article>
+                </section>
 
-                    <section class="grid">
-                        <article class="table-card card">
-                            <h3>Top search queries</h3>
-                            <div class="table-wrap">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Query</th>
-                                            <th>Clicks</th>
-                                            <th>Impressions</th>
-                                            <th>CTR</th>
-                                            <th>Position</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="gsc-queries-body"></tbody>
-                                </table>
-                            </div>
-                            <p id="gsc-queries-empty" class="empty-state hidden">No query data for this period.</p>
-                        </article>
+                <section class="grid">
+                    <article class="table-card card">
+                        <h3>Top search queries</h3>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Query</th>
+                                        <th>Clicks</th>
+                                        <th>Impressions</th>
+                                        <th>CTR</th>
+                                        <th>Position</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gsc-queries-body"></tbody>
+                            </table>
+                        </div>
+                        <p id="gsc-queries-empty" class="empty-state hidden">No query data for this period.</p>
+                    </article>
 
-                        <article class="table-card card">
-                            <h3>Top pages</h3>
-                            <div class="table-wrap">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Page</th>
-                                            <th>Clicks</th>
-                                            <th>Impressions</th>
-                                            <th>CTR</th>
-                                            <th>Position</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="gsc-pages-body"></tbody>
-                                </table>
-                            </div>
-                            <p id="gsc-pages-empty" class="empty-state hidden">No page data for this period.</p>
-                        </article>
-                    </section>
-                </article>
+                    <article class="table-card card">
+                        <h3>Top pages</h3>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Page</th>
+                                        <th>Clicks</th>
+                                        <th>Impressions</th>
+                                        <th>CTR</th>
+                                        <th>Position</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gsc-pages-body"></tbody>
+                            </table>
+                        </div>
+                        <p id="gsc-pages-empty" class="empty-state hidden">No page data for this period.</p>
+                    </article>
+                </section>
             </section>
 
             <section class="grid">
@@ -631,6 +663,7 @@
         };
         const gscDaysSelect = document.getElementById('gsc-days');
         const gscRefreshButton = document.getElementById('gsc-refresh');
+        const gscLogoutButton = document.getElementById('gsc-logout');
 
         const state = {
             content: null,
@@ -1174,6 +1207,9 @@
         gscRefreshButton.addEventListener('click', loadSearchConsole);
         gscDaysSelect.addEventListener('change', () => {
             if (state.activeTab === 'search-results') loadSearchConsole();
+        });
+        gscLogoutButton.addEventListener('click', async () => {
+            logoutButton.click();
         });
 
         logoutButton.addEventListener('click', async () => {
