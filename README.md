@@ -9,6 +9,7 @@ A professional, responsive website for Jespersen Erections construction company.
 - **Portfolio** – Project gallery with hover effects (add your own images)
 - **About** – Company credentials and stats
 - **Contact form** – Quote request form with validation
+- **Admin page** – Protected `/admin` editor for Services, Our Work, About, and search data on Vercel
 
 ## Quick Start
 
@@ -35,6 +36,10 @@ Replace the Unsplash URLs in `styles.css` (search for `placeholder-1` through `p
 The form currently shows a success message locally. To receive submissions:
 - Use a form service (Formspree, Netlify Forms, etc.)
 - Or add a backend endpoint and update `script.js` to submit via `fetch()`
+
+### Admin Setup
+
+If the site is deployed on Vercel, use `ADMIN-SETUP.md` for the environment variables required by the protected admin page and content storage.
 
 ## File Structure
 

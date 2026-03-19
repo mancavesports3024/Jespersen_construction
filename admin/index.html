@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jespersen Admin</title>
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f3f6fb;
+            --panel: #ffffff;
+            --text: #111827;
+            --muted: #64748b;
+            --border: #dbe3ef;
+            --primary: #1d4ed8;
+            --primary-dark: #1e3a8a;
+            --danger: #dc2626;
+            --success-bg: #ecfdf5;
+            --success-text: #047857;
+            --error-bg: #fef2f2;
+            --error-text: #b91c1c;
+            --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #eef4ff 0%, var(--bg) 100%);
+            color: var(--text);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .login-shell,
+        .dashboard-shell {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-shell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card,
+        .panel,
+        .repeater-item {
+            background: var(--panel);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .card {
+            width: 100%;
+            max-width: 440px;
+            padding: 2rem;
+        }
+
+        .dashboard-shell {
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin-top: 0;
+        }
+
+        .eyebrow {
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .panel {
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .stack {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .field {
+            margin-bottom: 1rem;
+        }
+
+        .field:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.45rem;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font: inherit;
+            color: var(--text);
+            background: #fff;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .button {
+            border: 0;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            padding: 0.9rem 1.25rem;
+            transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-1px);
+        }
+
+        .button:disabled {
+            cursor: wait;
+            opacity: 0.7;
+            transform: none;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, var(--primary) 100%);
+            color: #fff;
+        }
+
+        .button-secondary {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .button-danger {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+
+        .button-link {
+            background: transparent;
+            color: var(--primary-dark);
+            border: 1px solid var(--border);
+        }
+
+        .message {
+            border-radius: 12px;
+            padding: 0.95rem 1rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .message.error {
+            background: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid #fecaca;
+        }
+
+        .message.info {
+            background: #eff6ff;
+            color: var(--primary-dark);
+            border: 1px solid #bfdbfe;
+        }
+
+        .message.success {
+            background: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid #a7f3d0;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .repeater-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .repeater-item {
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .repeater-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .repeater-header h3 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .helper {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.35rem;
+        }
+
+        @media (max-width: 960px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main id="login-view" class="login-shell">
+        <section class="card">
+            <p class="eyebrow">Jespersen Erections</p>
+            <h1>Admin Login</h1>
+            <p class="muted">Manage Services, Our Work, About, and your search results notes.</p>
+            <form id="login-form">
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" autocomplete="current-password" required>
+                </div>
+                <button id="login-button" class="button button-primary" type="submit">Login</button>
+            </form>
+            <div id="login-message" class="message error hidden"></div>
+        </section>
+    </main>
+
+    <main id="dashboard-view" class="dashboard-shell hidden">
+        <header class="dashboard-header">
+            <div>
+                <p class="eyebrow">Jespersen Erections</p>
+                <h1>Site Admin</h1>
+                <p class="muted">Protected editor for live website content stored on Vercel.</p>
+            </div>
+            <div class="toolbar">
+                <a class="button button-link" href="/" target="_blank" rel="noopener noreferrer">Open Site</a>
+                <button id="reload-button" class="button button-secondary" type="button">Reload</button>
+                <button id="save-button" class="button button-primary" type="button">Save Changes</button>
+                <button id="logout-button" class="button button-secondary" type="button">Logout</button>
+            </div>
+        </header>
+
+        <div id="dashboard-message" class="message info hidden"></div>
+
+        <section class="grid">
+            <article class="panel">
+                <div class="section-title">
+                    <div>
+                        <h2>Services</h2>
+                        <p class="muted">Edit the section header and service cards shown on the homepage.</p>
+                    </div>
+                    <button class="button button-secondary" type="button" data-add="service">Add Service</button>
+                </div>
+                <div class="field">
+                    <label for="services-eyebrow-input">Eyebrow</label>
+                    <input id="services-eyebrow-input" type="text">
+                </div>
+                <div class="field">
+                    <label for="services-heading-input">Heading</label>
+                    <input id="services-heading-input" type="text">
+                </div>
+                <div class="field">
+                    <label for="services-description-input">Description</label>
+                    <textarea id="services-description-input"></textarea>
+                </div>
+                <div id="services-list" class="repeater-list"></div>
+            </article>
+
+            <article class="panel">
+                <div class="section-title">
+                    <div>
+                        <h2>Our Work</h2>
+                        <p class="muted">Manage project cards and their image URLs.</p>
+                    </div>
+                    <button class="button button-secondary" type="button" data-add="portfolio">Add Project</button>
+                </div>
+                <div class="field">
+                    <label for="portfolio-eyebrow-input">Eyebrow</label>
+                    <input id="portfolio-eyebrow-input" type="text">
+                </div>
+                <div class="field">
+                    <label for="portfolio-heading-input">Heading</label>
+                    <input id="portfolio-heading-input" type="text">
+                </div>
+                <div class="field">
+                    <label for="portfolio-description-input">Description</label>
+                    <textarea id="portfolio-description-input"></textarea>
+                </div>
+                <div id="portfolio-list" class="repeater-list"></div>
+            </article>
+        </section>
+
+        <section class="grid">
+            <article class="panel">
+                <div class="section-title">
+                    <div>
+                        <h2>About</h2>
+                        <p class="muted">Update the main paragraph, feature bullets, and highlight stats.</p>
+                    </div>
+                    <div class="toolbar">
+                        <button class="button button-secondary" type="button" data-add="feature">Add Feature</button>
+                        <button class="button button-secondary" type="button" data-add="stat">Add Stat</button>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="about-eyebrow-input">Eyebrow</label>
+                    <input id="about-eyebrow-input" type="text">
+                </div>
+                <div class="field">
+                    <label for="about-heading-input">Heading</label>
+                    <input id="about-heading-input" type="text">
+                </div>
+                <div class="field">
+                    <label for="about-body-input">Body</label>
+                    <textarea id="about-body-input"></textarea>
+                </div>
+                <div class="stack">
+                    <div>
+                        <h3>Features</h3>
+                        <div id="about-features-list" class="repeater-list"></div>
+                    </div>
+                    <div>
+                        <h3>Stats</h3>
+                        <div id="about-stats-list" class="repeater-list"></div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="panel">
+                <div class="section-title">
+                    <div>
+                        <h2>Search Results Data</h2>
+                        <p class="muted">Keep manual search notes, keywords, and performance snapshots in the admin only.</p>
+                    </div>
+                    <button class="button button-secondary" type="button" data-add="search-row">Add Row</button>
+                </div>
+                <div class="field">
+                    <label for="search-title-input">Section Title</label>
+                    <input id="search-title-input" type="text">
+                </div>
+                <div class="field">
+                    <label for="search-description-input">Description</label>
+                    <textarea id="search-description-input"></textarea>
+                </div>
+                <p class="helper">This data is stored for admin use and is not shown on the public homepage.</p>
+                <div id="search-results-list" class="repeater-list"></div>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        const loginView = document.getElementById('login-view');
+        const dashboardView = document.getElementById('dashboard-view');
+        const loginForm = document.getElementById('login-form');
+        const loginButton = document.getElementById('login-button');
+        const loginMessage = document.getElementById('login-message');
+        const dashboardMessage = document.getElementById('dashboard-message');
+        const saveButton = document.getElementById('save-button');
+        const reloadButton = document.getElementById('reload-button');
+        const logoutButton = document.getElementById('logout-button');
+
+        const state = {
+            content: null,
+        };
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function clone(value) {
+            return JSON.parse(JSON.stringify(value));
+        }
+
+        function blankService() {
+            return { icon: 'deck', title: '', description: '' };
+        }
+
+        function blankPortfolio() {
+            return { title: '', subtitle: '', imageUrl: '' };
+        }
+
+        function blankFeature() {
+            return '';
+        }
+
+        function blankStat() {
+            return { value: '', label: '' };
+        }
+
+        function blankSearchRow() {
+            return { query: '', clicks: '', impressions: '', position: '', notes: '' };
+        }
+
+        function setMessage(type, message) {
+            dashboardMessage.className = `message ${type}`;
+            dashboardMessage.textContent = message;
+            dashboardMessage.classList.remove('hidden');
+        }
+
+        function clearMessage() {
+            dashboardMessage.classList.add('hidden');
+        }
+
+        function showLogin(errorMessage) {
+            loginView.classList.remove('hidden');
+            dashboardView.classList.add('hidden');
+            loginMessage.textContent = errorMessage || '';
+            loginMessage.classList.toggle('hidden', !errorMessage);
+        }
+
+        function showDashboard() {
+            loginView.classList.add('hidden');
+            dashboardView.classList.remove('hidden');
+            loginMessage.classList.add('hidden');
+        }
+
+        function renderServices() {
+            const list = document.getElementById('services-list');
+            const items = state.content.services.items;
+
+            list.innerHTML = items.map((item, index) => `
+                <section class="repeater-item" data-section="service" data-index="${index}">
+                    <div class="repeater-header">
+                        <h3>Service ${index + 1}</h3>
+                        <button class="button button-danger" type="button" data-remove="service" data-index="${index}">Remove</button>
+                    </div>
+                    <div class="field">
+                        <label>Icon</label>
+                        <select data-field="icon">
+                            <option value="deck" ${item.icon === 'deck' ? 'selected' : ''}>Deck</option>
+                            <option value="siding" ${item.icon === 'siding' ? 'selected' : ''}>Siding</option>
+                            <option value="remodel" ${item.icon === 'remodel' ? 'selected' : ''}>Remodel</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Title</label>
+                        <input data-field="title" type="text" value="${escapeHtml(item.title)}">
+                    </div>
+                    <div class="field">
+                        <label>Description</label>
+                        <textarea data-field="description">${escapeHtml(item.description)}</textarea>
+                    </div>
+                </section>
+            `).join('');
+        }
+
+        function renderPortfolio() {
+            const list = document.getElementById('portfolio-list');
+            const items = state.content.portfolio.items;
+
+            list.innerHTML = items.map((item, index) => `
+                <section class="repeater-item" data-section="portfolio" data-index="${index}">
+                    <div class="repeater-header">
+                        <h3>Project ${index + 1}</h3>
+                        <button class="button button-danger" type="button" data-remove="portfolio" data-index="${index}">Remove</button>
+                    </div>
+                    <div class="field">
+                        <label>Title</label>
+                        <input data-field="title" type="text" value="${escapeHtml(item.title)}">
+                    </div>
+                    <div class="field">
+                        <label>Subtitle</label>
+                        <input data-field="subtitle" type="text" value="${escapeHtml(item.subtitle)}">
+                    </div>
+                    <div class="field">
+                        <label>Image URL</label>
+                        <input data-field="imageUrl" type="url" value="${escapeHtml(item.imageUrl)}">
+                        <p class="helper">Paste a direct image URL for the project photo.</p>
+                    </div>
+                </section>
+            `).join('');
+        }
+
+        function renderAboutFeatures() {
+            const list = document.getElementById('about-features-list');
+            const items = state.content.about.features;
+
+            list.innerHTML = items.map((item, index) => `
+                <section class="repeater-item" data-section="feature" data-index="${index}">
+                    <div class="repeater-header">
+                        <h3>Feature ${index + 1}</h3>
+                        <button class="button button-danger" type="button" data-remove="feature" data-index="${index}">Remove</button>
+                    </div>
+                    <div class="field">
+                        <label>Feature Text</label>
+                        <input data-field="value" type="text" value="${escapeHtml(item)}">
+                    </div>
+                </section>
+            `).join('');
+        }
+
+        function renderAboutStats() {
+            const list = document.getElementById('about-stats-list');
+            const items = state.content.about.stats;
+
+            list.innerHTML = items.map((item, index) => `
+                <section class="repeater-item" data-section="stat" data-index="${index}">
+                    <div class="repeater-header">
+                        <h3>Stat ${index + 1}</h3>
+                        <button class="button button-danger" type="button" data-remove="stat" data-index="${index}">Remove</button>
+                    </div>
+                    <div class="field">
+                        <label>Value</label>
+                        <input data-field="value" type="text" value="${escapeHtml(item.value)}">
+                    </div>
+                    <div class="field">
+                        <label>Label</label>
+                        <input data-field="label" type="text" value="${escapeHtml(item.label)}">
+                    </div>
+                </section>
+            `).join('');
+        }
+
+        function renderSearchRows() {
+            const list = document.getElementById('search-results-list');
+            const items = state.content.searchResults.rows;
+
+            list.innerHTML = items.map((item, index) => `
+                <section class="repeater-item" data-section="search-row" data-index="${index}">
+                    <div class="repeater-header">
+                        <h3>Row ${index + 1}</h3>
+                        <button class="button button-danger" type="button" data-remove="search-row" data-index="${index}">Remove</button>
+                    </div>
+                    <div class="field">
+                        <label>Query</label>
+                        <input data-field="query" type="text" value="${escapeHtml(item.query)}">
+                    </div>
+                    <div class="grid">
+                        <div class="field">
+                            <label>Clicks</label>
+                            <input data-field="clicks" type="text" value="${escapeHtml(item.clicks)}">
+                        </div>
+                        <div class="field">
+                            <label>Impressions</label>
+                            <input data-field="impressions" type="text" value="${escapeHtml(item.impressions)}">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Average Position</label>
+                        <input data-field="position" type="text" value="${escapeHtml(item.position)}">
+                    </div>
+                    <div class="field">
+                        <label>Notes</label>
+                        <textarea data-field="notes">${escapeHtml(item.notes)}</textarea>
+                    </div>
+                </section>
+            `).join('');
+        }
+
+        function renderForm() {
+            document.getElementById('services-eyebrow-input').value = state.content.services.eyebrow || '';
+            document.getElementById('services-heading-input').value = state.content.services.heading || '';
+            document.getElementById('services-description-input').value = state.content.services.description || '';
+            document.getElementById('portfolio-eyebrow-input').value = state.content.portfolio.eyebrow || '';
+            document.getElementById('portfolio-heading-input').value = state.content.portfolio.heading || '';
+            document.getElementById('portfolio-description-input').value = state.content.portfolio.description || '';
+            document.getElementById('about-eyebrow-input').value = state.content.about.eyebrow || '';
+            document.getElementById('about-heading-input').value = state.content.about.heading || '';
+            document.getElementById('about-body-input').value = state.content.about.body || '';
+            document.getElementById('search-title-input').value = state.content.searchResults.title || '';
+            document.getElementById('search-description-input').value = state.content.searchResults.description || '';
+
+            renderServices();
+            renderPortfolio();
+            renderAboutFeatures();
+            renderAboutStats();
+            renderSearchRows();
+        }
+
+        function readRepeater(section) {
+            return Array.from(document.querySelectorAll(`[data-section="${section}"]`));
+        }
+
+        function syncStateFromForm() {
+            state.content = {
+                services: {
+                    eyebrow: document.getElementById('services-eyebrow-input').value.trim(),
+                    heading: document.getElementById('services-heading-input').value.trim(),
+                    description: document.getElementById('services-description-input').value.trim(),
+                    items: readRepeater('service').map((item) => ({
+                        icon: item.querySelector('[data-field="icon"]').value,
+                        title: item.querySelector('[data-field="title"]').value.trim(),
+                        description: item.querySelector('[data-field="description"]').value.trim(),
+                    })),
+                },
+                portfolio: {
+                    eyebrow: document.getElementById('portfolio-eyebrow-input').value.trim(),
+                    heading: document.getElementById('portfolio-heading-input').value.trim(),
+                    description: document.getElementById('portfolio-description-input').value.trim(),
+                    items: readRepeater('portfolio').map((item) => ({
+                        title: item.querySelector('[data-field="title"]').value.trim(),
+                        subtitle: item.querySelector('[data-field="subtitle"]').value.trim(),
+                        imageUrl: item.querySelector('[data-field="imageUrl"]').value.trim(),
+                    })),
+                },
+                about: {
+                    eyebrow: document.getElementById('about-eyebrow-input').value.trim(),
+                    heading: document.getElementById('about-heading-input').value.trim(),
+                    body: document.getElementById('about-body-input').value.trim(),
+                    features: readRepeater('feature')
+                        .map((item) => item.querySelector('[data-field="value"]').value.trim())
+                        .filter(Boolean),
+                    stats: readRepeater('stat')
+                        .map((item) => ({
+                            value: item.querySelector('[data-field="value"]').value.trim(),
+                            label: item.querySelector('[data-field="label"]').value.trim(),
+                        }))
+                        .filter((item) => item.value || item.label),
+                },
+                searchResults: {
+                    title: document.getElementById('search-title-input').value.trim(),
+                    description: document.getElementById('search-description-input').value.trim(),
+                    rows: readRepeater('search-row')
+                        .map((item) => ({
+                            query: item.querySelector('[data-field="query"]').value.trim(),
+                            clicks: item.querySelector('[data-field="clicks"]').value.trim(),
+                            impressions: item.querySelector('[data-field="impressions"]').value.trim(),
+                            position: item.querySelector('[data-field="position"]').value.trim(),
+                            notes: item.querySelector('[data-field="notes"]').value.trim(),
+                        }))
+                        .filter((item) => item.query || item.clicks || item.impressions || item.position || item.notes),
+                },
+            };
+        }
+
+        async function loadContent() {
+            clearMessage();
+            setMessage('info', 'Loading content...');
+
+            const response = await fetch('/api/admin/content', {
+                credentials: 'same-origin',
+            });
+            const data = await response.json();
+
+            if (response.status === 401) {
+                showLogin('Your session expired. Please log in again.');
+                return false;
+            }
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Unable to load content.');
+            }
+
+            state.content = clone(data);
+            renderForm();
+            setMessage('success', 'Content loaded.');
+            return true;
+        }
+
+        async function saveContent() {
+            syncStateFromForm();
+            saveButton.disabled = true;
+            clearMessage();
+            setMessage('info', 'Saving changes...');
+
+            try {
+                const response = await fetch('/api/admin/content', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(state.content),
+                });
+                const data = await response.json();
+
+                if (response.status === 401) {
+                    showLogin('Your session expired. Please log in again.');
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Unable to save content.');
+                }
+
+                state.content = clone(data.content);
+                renderForm();
+                setMessage('success', 'Changes saved to Vercel storage.');
+            } catch (error) {
+                setMessage('error', error.message || 'Unable to save content.');
+            } finally {
+                saveButton.disabled = false;
+            }
+        }
+
+        function addItem(type) {
+            syncStateFromForm();
+
+            if (type === 'service') state.content.services.items.push(blankService());
+            if (type === 'portfolio') state.content.portfolio.items.push(blankPortfolio());
+            if (type === 'feature') state.content.about.features.push(blankFeature());
+            if (type === 'stat') state.content.about.stats.push(blankStat());
+            if (type === 'search-row') state.content.searchResults.rows.push(blankSearchRow());
+
+            renderForm();
+            clearMessage();
+        }
+
+        function removeItem(type, index) {
+            syncStateFromForm();
+
+            if (type === 'service') state.content.services.items.splice(index, 1);
+            if (type === 'portfolio') state.content.portfolio.items.splice(index, 1);
+            if (type === 'feature') state.content.about.features.splice(index, 1);
+            if (type === 'stat') state.content.about.stats.splice(index, 1);
+            if (type === 'search-row') state.content.searchResults.rows.splice(index, 1);
+
+            renderForm();
+            clearMessage();
+        }
+
+        document.body.addEventListener('click', (event) => {
+            const addType = event.target.dataset.add;
+            if (addType) {
+                addItem(addType);
+                return;
+            }
+
+            const removeType = event.target.dataset.remove;
+            const index = Number.parseInt(event.target.dataset.index || '-1', 10);
+            if (removeType && index >= 0) {
+                removeItem(removeType, index);
+            }
+        });
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            loginButton.disabled = true;
+            loginMessage.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ password: document.getElementById('password').value }),
+                });
+                const data = await response.json();
+
+                if (!response.ok) {
+                    showLogin(data.error || 'Login failed.');
+                    return;
+                }
+
+                document.getElementById('password').value = '';
+                showDashboard();
+                await loadContent();
+            } catch (error) {
+                showLogin('Network error while logging in.');
+            } finally {
+                loginButton.disabled = false;
+            }
+        });
+
+        reloadButton.addEventListener('click', async () => {
+            try {
+                await loadContent();
+            } catch (error) {
+                setMessage('error', error.message || 'Unable to reload content.');
+            }
+        });
+
+        saveButton.addEventListener('click', saveContent);
+
+        logoutButton.addEventListener('click', async () => {
+            await fetch('/api/admin/logout', {
+                method: 'POST',
+                credentials: 'same-origin',
+            });
+            showLogin('');
+        });
+
+        async function checkSession() {
+            try {
+                const response = await fetch('/api/admin/session', {
+                    credentials: 'same-origin',
+                });
+                const data = await response.json();
+
+                if (data.authenticated) {
+                    showDashboard();
+                    await loadContent();
+                    return;
+                }
+            } catch (error) {
+            }
+
+            showLogin('');
+        }
+
+        checkSession();
+    </script>
+</body>
+</html>
