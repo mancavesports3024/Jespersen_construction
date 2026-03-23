@@ -1,7 +1,7 @@
 const defaultContent = {
   services: {
     eyebrow: 'What We Do',
-    heading: 'Storm-Ready Exterior Services',
+    heading: 'Trusted Exterior Services',
     description:
       'Roofing, siding, gutters, and storm restoration with AI-backed insurance support and job-site protection that keeps your landscaping and property safe.',
     items: [
@@ -27,13 +27,13 @@ const defaultContent = {
   },
   portfolio: {
     eyebrow: 'Project Gallery',
-    heading: 'Storm Damage In — Code-Correct Out',
+    heading: 'Storm Damage In — Built Right Out',
     description:
       "A few examples of roofs, exteriors, and storm restorations we've brought back to better-than-before condition.",
     items: [
       {
         title: 'Hail-Damaged Roof Replacement',
-        subtitle: 'Architectural shingles, code-correct ventilation, full cleanup',
+        subtitle: 'Architectural shingles, built-right ventilation, full cleanup',
         imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
       },
       {
@@ -55,13 +55,13 @@ const defaultContent = {
   },
   about: {
     eyebrow: 'About Us',
-    heading: 'Code-Correct Craftsmanship, Backed by AI',
+    heading: 'Built-Right Craftsmanship, Backed by AI',
     body:
       'Jespersen Erections is a storm-restoration contractor that blends hands-on craftsmanship with modern AI tools. We document every layer, build to code, and protect your property with a full catch-all system so the only thing we leave behind is a finished project.',
     features: [
       'Licensed, insured, and focused on storm-restoration work',
       'AI-assisted supplementing to find missed items in your insurance estimate',
-      'Code-correct details: WRB, flashing, frieze wrap, window bucks, drainage planes, and more',
+      'Built-right details: WRB, flashing, frieze wrap, window bucks, drainage planes, and more',
       'Catch-all debris system to protect landscaping, driveways, and neighboring properties',
     ],
     stats: [
