@@ -267,7 +267,7 @@ function initScrollEffects() {
     }, observerOptions);
 
     // Add fade-in to sections
-    document.querySelectorAll('.service-card, .portfolio-item, .about-content, .contact-wrapper').forEach(el => {
+    document.querySelectorAll('.service-card, .portfolio-item, .about-content, .service-area-region, .contact-wrapper').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';

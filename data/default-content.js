@@ -57,7 +57,7 @@ const defaultContent = {
     eyebrow: 'About Us',
     heading: 'Built-Right Craftsmanship, Backed by AI',
     body:
-      'Jespersen Erections is a storm-restoration contractor that blends hands-on craftsmanship with modern AI tools. We document every layer, build to code, and protect your property with a full catch-all system so the only thing we leave behind is a finished project.',
+      'Jespersen Erections is a storm-restoration contractor that blends hands-on craftsmanship with modern AI tools. We document every layer, build to code, and protect your property with a full catch-all system so the only thing we leave behind is a finished project. From our Joplin base we serve the broader four-state area: Southwest Missouri, Northwest Arkansas, Northeast Oklahoma, and Southeast Kansas.',
     features: [
       'Licensed, insured, and focused on storm-restoration work',
       'AI-assisted supplementing to find missed items in your insurance estimate',
