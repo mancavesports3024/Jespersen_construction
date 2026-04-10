@@ -1,26 +1,5 @@
-const { google } = require('googleapis');
+const { getSearchConsoleClient, getGscSiteUrl } = require('../_lib/gsc-credentials');
 const { isAuthenticated } = require('../_lib/admin-auth');
-
-function getCredentials() {
-  const rawJson = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
-  const base64Json = process.env.GOOGLE_SERVICE_ACCOUNT_KEY_BASE64;
-
-  if (!rawJson && !base64Json) {
-    const error = new Error(
-      'Search Console is not configured. Add GOOGLE_SERVICE_ACCOUNT_KEY or GOOGLE_SERVICE_ACCOUNT_KEY_BASE64.'
-    );
-    error.statusCode = 503;
-    throw error;
-  }
-
-  try {
-    return JSON.parse(base64Json ? Buffer.from(base64Json, 'base64').toString('utf8') : rawJson);
-  } catch {
-    const error = new Error('Invalid Search Console credentials. Use the full service-account JSON.');
-    error.statusCode = 400;
-    throw error;
-  }
-}
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -35,20 +14,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const credentials = getCredentials();
-    if (!credentials.client_email || credentials.type !== 'service_account') {
-      return res.status(400).json({
-        error: 'Use a Google service-account JSON key. OAuth client credentials will not work.',
-      });
-    }
-
-    const siteUrl = process.env.GSC_SITE_URL;
-    if (!siteUrl) {
-      return res.status(503).json({
-        error: 'Missing required environment variable: GSC_SITE_URL',
-      });
-    }
-
+    const siteUrl = getGscSiteUrl();
     const days = Math.min(90, Math.max(7, Number.parseInt(req.query.days || '28', 10) || 28));
 
     const endDate = new Date();
@@ -58,13 +24,7 @@ module.exports = async function handler(req, res) {
     const start = startDate.toISOString().slice(0, 10);
     const end = endDate.toISOString().slice(0, 10);
 
-    const auth = new google.auth.GoogleAuth({
-      credentials,
-      scopes: ['https://www.googleapis.com/auth/webmasters.readonly'],
-    });
-
-    const authClient = await auth.getClient();
-    const searchconsole = google.searchconsole({ version: 'v1', auth: authClient });
+    const searchconsole = await getSearchConsoleClient();
 
     const [summaryResult, queryResult, pageResult] = await Promise.all([
       searchconsole.searchanalytics.query({
@@ -141,4 +101,3 @@ module.exports = async function handler(req, res) {
     return res.status(error.statusCode || 500).json({ error: message });
   }
 };
-

@@ -659,6 +659,28 @@
                         <p id="gsc-pages-empty" class="empty-state hidden">No page data for this period.</p>
                     </article>
                 </section>
+
+                <article class="table-card card" style="margin-top: 1rem;">
+                    <h3>Query momentum (Google Search Console API)</h3>
+                    <p id="seo-insights-intro" class="muted" style="padding: 0 1.1rem;">Compares the selected period to the <strong>previous period of the same length</strong> to surface searches gaining traction for your site. Use these terms when updating page copy and headings—not as keyword stuffing.</p>
+                    <p id="seo-insights-disclaimer" class="muted" style="padding: 0 1.1rem; font-size: 0.85rem;"></p>
+                    <div id="seo-insights-error" class="message error hidden" style="margin: 0 1.1rem 1rem;"></div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Query</th>
+                                    <th>Trade / local match</th>
+                                    <th>Prev impressions</th>
+                                    <th>Recent impressions</th>
+                                    <th>Change</th>
+                                </tr>
+                            </thead>
+                            <tbody id="seo-momentum-body"></tbody>
+                        </table>
+                    </div>
+                    <p id="seo-insights-empty" class="empty-state hidden">No queries increased vs the prior period. Try a longer range after you have more Search Console history.</p>
+                </article>
             </section>
         </section>
     </main>
@@ -837,33 +859,105 @@
             );
         }
 
+        function setSeoInsightsError(message) {
+            const box = document.getElementById('seo-insights-error');
+            if (!box) return;
+            box.textContent = message || '';
+            box.classList.toggle('hidden', !message);
+        }
+
+        function renderSeoInsights(data) {
+            const intro = document.getElementById('seo-insights-intro');
+            const disclaimer = document.getElementById('seo-insights-disclaimer');
+            const body = document.getElementById('seo-momentum-body');
+            const empty = document.getElementById('seo-insights-empty');
+            if (!body || !empty) return;
+
+            setSeoInsightsError('');
+
+            if (!data || !Array.isArray(data.risingByImpressions)) {
+                body.innerHTML = '';
+                empty.classList.remove('hidden');
+                if (disclaimer) disclaimer.textContent = '';
+                return;
+            }
+
+            const recent = data.dateRanges?.recent;
+            const previous = data.dateRanges?.previous;
+            if (intro && recent && previous) {
+                intro.innerHTML = `Comparing <strong>${previous.start}</strong>–<strong>${previous.end}</strong> vs <strong>${recent.start}</strong>–<strong>${recent.end}</strong> (${data.windowDays || ''} days each).`;
+            }
+
+            if (disclaimer) {
+                disclaimer.textContent = data.disclaimer || '';
+            }
+
+            const rows = data.risingByImpressions || [];
+            if (!rows.length) {
+                body.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            body.innerHTML = rows.map((row) => {
+                const match = row.constructionRelated ? 'Likely match' : '—';
+                const delta = row.deltaImpressions;
+                const deltaClass = 'number';
+                return `<tr>
+                    <td>${escapeHtml(row.query)}</td>
+                    <td>${escapeHtml(match)}</td>
+                    <td class="${deltaClass}">${formatNumber(row.previousImpressions)}</td>
+                    <td class="${deltaClass}">${formatNumber(row.recentImpressions)}</td>
+                    <td class="${deltaClass}">+${formatNumber(delta)}</td>
+                </tr>`;
+            }).join('');
+        }
+
         async function loadSearchConsole() {
             setGscError('');
+            setSeoInsightsError('');
             gscRefreshButton.disabled = true;
             setGscInfo('Loading Google Search Console data...');
 
-            try {
-                const response = await fetch(`/api/admin/search-console?days=${encodeURIComponent(gscDaysSelect.value)}`, {
-                    credentials: 'same-origin'
-                });
-                const data = await response.json();
+            const days = encodeURIComponent(gscDaysSelect.value);
 
-                if (response.status === 401) {
+            try {
+                const [gscResponse, seoResponse] = await Promise.all([
+                    fetch(`/api/admin/search-console?days=${days}`, { credentials: 'same-origin' }),
+                    fetch(`/api/admin/seo-insights?days=${days}`, { credentials: 'same-origin' }),
+                ]);
+
+                const gscData = await gscResponse.json();
+                const seoData = await seoResponse.json();
+
+                if (gscResponse.status === 401 || seoResponse.status === 401) {
                     showLogin('Your session expired. Please log in again.');
                     return;
                 }
 
-                if (!response.ok) {
-                    setGscError(data.error || 'Unable to load Search Console data.');
+                if (!gscResponse.ok) {
+                    setGscError(gscData.error || 'Unable to load Search Console data.');
                     setGscInfo('');
+                    renderSeoInsights(null);
+                    setSeoInsightsError(seoData.error || 'SEO momentum not loaded.');
                     return;
                 }
 
-                renderSearchConsole(data);
+                renderSearchConsole(gscData);
                 setGscInfo('');
+
+                if (seoResponse.ok) {
+                    renderSeoInsights(seoData);
+                } else {
+                    renderSeoInsights(null);
+                    setSeoInsightsError(seoData.error || 'Could not load query momentum (check GSC credentials).');
+                }
             } catch (error) {
                 setGscError('Network error while loading Search Console data.');
                 setGscInfo('');
+                renderSeoInsights(null);
+                setSeoInsightsError('Network error loading SEO insights.');
             } finally {
                 gscRefreshButton.disabled = false;
             }

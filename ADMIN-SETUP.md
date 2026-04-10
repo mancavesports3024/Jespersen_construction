@@ -29,7 +29,11 @@ Add these in `Project -> Settings -> Environment Variables`:
 - `BLOB_READ_WRITE_TOKEN`
   - Create a Vercel Blob store and copy its read/write token here
 
-### Google Search Console (Search Results tab)
+### Google Search Console (Search Results tab + query momentum)
+
+The same credentials power **Search Console** stats and **query momentum** (compares the selected period to the previous period so you can see searches gaining impressions). This uses Google’s **official Search Console API** only.
+
+**Note:** There is **no public Google API** for Google Trends-style “what’s trending worldwide.” For broad industry trends, use [Google Trends](https://trends.google.com) manually or your Ads/SEO tools. Momentum is based on **your site’s** Search Console data, which is usually more actionable than generic trends.
 
 - `GSC_SITE_URL`
   - Must match your Search Console property exactly
