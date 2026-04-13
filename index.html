@@ -72,51 +72,6 @@
               "name": "Jespersen Erections",
               "inLanguage": "en-US",
               "publisher": { "@id": "https://jespersenconstruction.com/#business" }
-            },
-            {
-              "@type": "FAQPage",
-              "mainEntity": [
-                {
-                  "@type": "Question",
-                  "name": "Do you help with insurance claims after hail or wind in Joplin?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. We help with documentation, supplements, and adjuster-ready photos and measurements for roofing and exteriors. We do not replace your insurance company’s decisions."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "What services do you offer?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Roof repair and roof replacement, storm restoration, siding and gutters, and AI-assisted insurance estimate review. Licensed and insured, based in Joplin, MO."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "What areas do you serve outside Joplin, MO?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "We serve the four-state area around Joplin including Southwest Missouri, Northwest Arkansas, Northeast Oklahoma, and Southeast Kansas. Call to confirm coverage for your address."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "What does built-right construction mean?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "We install roofing, siding, and drainage components to code and manufacturer standards—underlayment, flashing, ventilation, and related details included—not shortcuts hidden under shingles."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "How do I request a storm damage inspection?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Call 417-396-9941 or use the contact form on this website. We will schedule as soon as we can, especially after widespread storms."
-                  }
-                }
-              ]
             }
           ]
         }
@@ -139,13 +94,14 @@
                 <span></span>
             </button>
             <ul class="nav-links">
-                <li><a href="#services">Services</a></li>
+                <li><a href="/services">Services</a></li>
                 <li><a href="/insurance-claims">Insurance</a></li>
-                <li><a href="#portfolio">Our Work</a></li>
-                <li><a href="#why-us">Why Us</a></li>
+                <li><a href="/our-work">Our work</a></li>
+                <li><a href="/why-us">Why us</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/services/our-process">Process</a></li>
-                <li><a href="#service-area">Area</a></li>
+                <li><a href="/service-area">Area</a></li>
+                <li><a href="/faq">FAQ</a></li>
                 <li><a href="/contact" class="btn btn-nav">Contact</a></li>
             </ul>
         </nav>
@@ -162,12 +118,8 @@
                 </p>
                 <div class="hero-cta">
                     <a href="/contact" class="btn btn-primary">Request a free inspection</a>
-                    <a href="/insurance-claims" class="btn btn-secondary">Insurance claim help</a>
+                    <a href="/services" class="btn btn-secondary">View services</a>
                 </div>
-            </div>
-            <div class="hero-scroll">
-                <span>Scroll</span>
-                <div class="scroll-line"></div>
             </div>
         </section>
 
@@ -180,356 +132,61 @@
             </div>
         </div>
 
-        <section id="services" class="services">
+        <section class="services" aria-labelledby="home-explore-heading">
             <div class="container">
                 <div class="section-header">
-                    <span id="services-eyebrow" class="section-tag">What we do</span>
-                    <h2 id="services-heading">Roofing and exterior services in Joplin</h2>
-                    <p id="services-description">
-                        Roof repair and replacement, storm restoration, siding and gutters, plus insurance claim help with clear documentation. Local crew, built-right work.
+                    <span class="section-tag">Explore the site</span>
+                    <h2 id="home-explore-heading">Where would you like to go?</h2>
+                    <p>
+                        Every topic below opens its own page—no jumping around on one long homepage. Use the menu anytime; it works the same on every page.
                     </p>
-                </div>
-                <div id="services-grid" class="services-grid">
-                    <!-- Cards are rendered dynamically from admin content. Static markup is a fallback. -->
-                    <article class="service-card">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                                <path d="M9 22V12h6v10"/>
-                            </svg>
-                        </div>
-                        <h3>Roof repair &amp; replacement</h3>
-                        <p>Hail, wind, and wear—we inspect, document, and install roofing to code with proper underlayment, flashing, and ventilation.</p>
-                        <p><a href="/services/roofing" class="btn btn-secondary">Roofing details</a></p>
-                    </article>
-                    <article class="service-card">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="18" height="18" rx="2"/>
-                                <path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>
-                            </svg>
-                        </div>
-                        <h3>Siding, gutters &amp; exterior</h3>
-                        <p>Siding, gutters, wraps, and trim so water management and curb appeal match your roof—not a patch on one elevation.</p>
-                        <p><a href="/services/siding-and-exterior" class="btn btn-secondary">Exterior details</a></p>
-                    </article>
-                    <article class="service-card">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                                <circle cx="12" cy="12" r="4"/>
-                            </svg>
-                        </div>
-                        <h3>Storm restoration</h3>
-                        <p>From inspection through cleanup: documentation for adjusters, supplements when scopes are thin, and catch-all debris control.</p>
-                        <p><a href="/services/storm-restoration" class="btn btn-secondary">Storm restoration</a></p>
-                    </article>
-                    <article class="service-card">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 21h18M3 9v12M3 9h18v12M3 9V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3"/>
-                            </svg>
-                        </div>
-                        <h3>Insurance claim help</h3>
-                        <p>AI-assisted estimate review, photos and measurements packaged for adjusters—we clarify what is missing; your carrier still decides.</p>
-                        <p><a href="/insurance-claims" class="btn btn-secondary">Claims &amp; upload</a></p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="portfolio">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Explore</span>
-                    <h2>Find the right page</h2>
-                    <p>Open the topic that matches what you need—roofing in Joplin, storm restoration, our step-by-step process, or contact.</p>
                 </div>
                 <div class="services-grid">
                     <article class="service-card">
-                        <h3>Roofing</h3>
-                        <p>Roof repair, replacement, and storm-related roofing in Joplin and the four-state area.</p>
-                        <p><a href="/services/roofing" class="btn btn-primary">Roofing</a></p>
+                        <h3>Services</h3>
+                        <p>Roofing, siding, storm restoration, and insurance claim help—overview and links to each trade page.</p>
+                        <p><a href="/services" class="btn btn-primary">Services</a></p>
                     </article>
                     <article class="service-card">
-                        <h3>Siding &amp; exterior</h3>
-                        <p>Siding, gutters, wraps, and exterior restoration after wind and hail.</p>
-                        <p><a href="/services/siding-and-exterior" class="btn btn-primary">Siding &amp; gutters</a></p>
+                        <h3>Our work</h3>
+                        <p>Project gallery: roofs, siding, and exteriors we’ve restored.</p>
+                        <p><a href="/our-work" class="btn btn-primary">Our work</a></p>
                     </article>
                     <article class="service-card">
-                        <h3>Storm restoration</h3>
-                        <p>Inspections, documentation, and full exterior storm recovery.</p>
-                        <p><a href="/services/storm-restoration" class="btn btn-primary">Storm restoration</a></p>
-                    </article>
-                    <article class="service-card">
-                        <h3>Our process</h3>
-                        <p>Six clear steps from first call to final walkthrough.</p>
-                        <p><a href="/services/our-process" class="btn btn-primary">Our process</a></p>
-                    </article>
-                    <article class="service-card">
-                        <h3>Insurance claims</h3>
+                        <h3>Insurance</h3>
                         <p>Estimate review, supplements, and how to upload paperwork.</p>
                         <p><a href="/insurance-claims" class="btn btn-primary">Insurance</a></p>
                     </article>
                     <article class="service-card">
-                        <h3>About &amp; contact</h3>
-                        <p>Who we are in Joplin, and how to reach us by phone or form.</p>
-                        <p><a href="/about" class="btn btn-secondary">About</a> <a href="/contact" class="btn btn-primary">Contact</a></p>
+                        <h3>Why us</h3>
+                        <p>Local team, built-right installs, straight answers.</p>
+                        <p><a href="/why-us" class="btn btn-primary">Why us</a></p>
                     </article>
-                </div>
-            </div>
-        </section>
-
-        <section id="claims" class="about">
-            <div class="container about-grid">
-                <div class="about-content">
-                    <span class="section-tag">Insurance &amp; codes</span>
-                    <h2>Insurance claim help without the runaround</h2>
-                    <p>
-                        After hail or wind, estimates often miss line items or code-driven details. We use AI-assisted review plus field documentation—photos, measurements, and clear notes—so you can discuss a complete scope with your carrier. We do not replace your insurance company’s decisions; we help you show what the property needs.
-                    </p>
-                    <ul class="about-features">
-                        <li>Compare scopes to real installation and code requirements</li>
-                        <li>Supplement support with evidence adjusters can follow</li>
-                        <li>Built-right installation whether the claim is large or small</li>
-                        <li>Catch-all debris control on jobs where your yard matters</li>
-                    </ul>
-                    <p class="claims-cta">
-                        <a href="/insurance-claims" class="btn btn-primary">Insurance claim help</a>
-                        <a href="/insurance-claims#upload" class="btn btn-secondary">Upload an estimate</a>
-                    </p>
-                </div>
-                <div class="about-stats">
-                    <div class="stat">
-                        <span class="stat-number">Clear</span>
-                        <span class="stat-label">Documentation</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">Code</span>
-                        <span class="stat-label">Aligned installs</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="why-us" class="about">
-            <div class="container about-grid">
-                <div class="about-content">
-                    <span class="section-tag">Why choose us</span>
-                    <h2>Roofing and exterior construction done right in Joplin</h2>
-                    <p>
-                        We are not a storm-chasing sales machine. We live and work here. That means honest inspections, scopes you can understand, and crews who treat your property like a job site worth protecting—from tear-off through final magnet sweep.
-                    </p>
-                    <ul class="about-features">
-                        <li>Local team; you can reach us after the trucks leave</li>
-                        <li>Manufacturer-appropriate systems installed to code</li>
-                        <li>Storm restoration experience across the four-state area</li>
-                        <li>Straight answers on timeline, insurance paperwork, and options</li>
-                    </ul>
-                </div>
-                <div class="about-stats">
-                    <div class="stat">
-                        <span class="stat-number">Local</span>
-                        <span class="stat-label">Joplin-based</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">Built</span>
-                        <span class="stat-label">Right, not rushed</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="portfolio" class="portfolio">
-            <div class="container">
-                <div class="section-header">
-                    <span id="portfolio-eyebrow" class="section-tag">Project gallery</span>
-                    <h2 id="portfolio-heading">Storm damage in — built right out</h2>
-                    <p id="portfolio-description">Roofs, siding, and full exteriors we’ve restored for homeowners in Joplin and the four-state area.</p>
-                </div>
-                <div id="portfolio-grid" class="portfolio-grid">
-                    <div class="portfolio-item">
-                        <div class="portfolio-image placeholder-1"></div>
-                        <div class="portfolio-overlay">
-                            <h3>Hail-damaged roof replacement</h3>
-                            <p>Architectural shingles, ventilation, full cleanup</p>
-                        </div>
-                    </div>
-                    <div class="portfolio-item">
-                        <div class="portfolio-image placeholder-2"></div>
-                        <div class="portfolio-overlay">
-                            <h3>Siding &amp; gutter restoration</h3>
-                            <p>Drainage plane and trim tied to the roof line</p>
-                        </div>
-                    </div>
-                    <div class="portfolio-item">
-                        <div class="portfolio-image placeholder-3"></div>
-                        <div class="portfolio-overlay">
-                            <h3>Full exterior storm rebuild</h3>
-                            <p>Roof, fascia, soffit, gutters, wraps</p>
-                        </div>
-                    </div>
-                    <div class="portfolio-item">
-                        <div class="portfolio-image placeholder-4"></div>
-                        <div class="portfolio-overlay">
-                            <h3>Protected landscaping</h3>
-                            <p>Catch-all system on debris-heavy tear-offs</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about-teaser" class="about">
-            <div class="container about-grid">
-                <div id="about-content" class="about-content">
-                    <span id="about-eyebrow" class="section-tag">Why homeowners call us</span>
-                    <h2 id="about-heading">Local roofing and exterior construction</h2>
-                    <p id="about-body">
-                        Jespersen Erections is a Joplin-based team focused on roofing and exterior construction after storms and normal wear. We combine hands-on installation with clear insurance documentation—so you know what we found, what we recommend, and what was installed.
-                    </p>
-                    <ul id="about-features" class="about-features">
-                        <li>Licensed and insured; work scoped and built to code</li>
-                        <li>Adjuster-ready photos, measurements, and supplement support when estimates are incomplete</li>
-                        <li>Built-right details: WRB, flashing, ventilation, gutters tied to the drainage plan</li>
-                        <li>Catch-all debris control on jobs where your yard and neighbors need protection</li>
-                    </ul>
-                    <p class="about-read-more">
-                        <a href="/about" class="btn btn-primary">Read our full story</a>
-                    </p>
-                </div>
-                <div id="about-stats" class="about-stats">
-                    <div class="stat">
-                        <span class="stat-number">Joplin</span>
-                        <span class="stat-label">Home base</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">4-state</span>
-                        <span class="stat-label">Service area</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="service-area" class="service-area">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Four-State Region</span>
-                    <h2>Where We Work</h2>
-                    <p>Based in Joplin, we take on roofing and exterior storm projects across Southwest Missouri, Northwest Arkansas, Northeast Oklahoma, and Southeast Kansas.</p>
-                </div>
-                <div class="service-area-grid">
-                    <article class="service-area-region">
-                        <h3>Southwest Missouri</h3>
-                        <ul>
-                            <li>Joplin</li>
-                            <li>Webb City</li>
-                            <li>Carthage</li>
-                            <li>Neosho</li>
-                            <li>Carl Junction</li>
-                        </ul>
+                    <article class="service-card">
+                        <h3>About</h3>
+                        <p>Who we are in Joplin and how we work with homeowners.</p>
+                        <p><a href="/about" class="btn btn-primary">About</a></p>
                     </article>
-                    <article class="service-area-region">
-                        <h3>Northwest Arkansas</h3>
-                        <ul>
-                            <li>Fayetteville</li>
-                            <li>Springdale</li>
-                            <li>Rogers</li>
-                            <li>Bentonville</li>
-                            <li>Siloam Springs</li>
-                        </ul>
+                    <article class="service-card">
+                        <h3>Our process</h3>
+                        <p>Six steps from first call to walkthrough.</p>
+                        <p><a href="/services/our-process" class="btn btn-primary">Process</a></p>
                     </article>
-                    <article class="service-area-region">
-                        <h3>Northeast Oklahoma</h3>
-                        <ul>
-                            <li>Miami</li>
-                            <li>Grove</li>
-                            <li>Vinita</li>
-                        </ul>
+                    <article class="service-card">
+                        <h3>Service area</h3>
+                        <p>Four-state region around Joplin and local SEO information.</p>
+                        <p><a href="/service-area" class="btn btn-primary">Service area</a></p>
                     </article>
-                    <article class="service-area-region">
-                        <h3>Southeast Kansas</h3>
-                        <ul>
-                            <li>Pittsburg</li>
-                            <li>Galena</li>
-                            <li>Baxter Springs</li>
-                            <li>Columbus</li>
-                        </ul>
+                    <article class="service-card">
+                        <h3>FAQ</h3>
+                        <p>Common questions about claims, inspections, and coverage.</p>
+                        <p><a href="/faq" class="btn btn-primary">FAQ</a></p>
                     </article>
-                </div>
-                <p class="service-area-note">Not sure if you are in range? <a href="/contact">Contact us</a> or call <a href="tel:+14173969941">417-396-9941</a> — we will confirm whether we can take your project.</p>
-                <div class="local-seo-block faq-item">
-                    <h3 class="local-seo-heading">Roofing contractor Joplin MO &amp; storm restoration</h3>
-                    <p>
-                        Homeowners searching for a <strong>roofing contractor in Joplin MO</strong>, <strong>storm restoration Joplin</strong>, <strong>hail damage repair Joplin</strong>, or <strong>siding and gutters Joplin</strong> get the same team: Jespersen Erections. We are based in Joplin, licensed and insured, and we travel throughout Southwest Missouri, Northwest Arkansas, Northeast Oklahoma, and Southeast Kansas for roofing and exterior projects. Whether you need emergency tarping, a full replacement, or help understanding an insurance estimate, start with a conversation—we will tell you what we see on the roof and on paper.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section id="faq" class="services">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">FAQ</span>
-                    <h2>Common questions</h2>
-                    <p>Quick answers about insurance, service area, and how we work. For a detailed walkthrough, see <a href="/services/our-process">our process</a>.</p>
-                </div>
-                <div class="faq-list">
-                    <article class="faq-item">
-                        <h3>Do you help with insurance claims after hail or wind in Joplin?</h3>
-                        <p>Yes. We help with documentation, supplements, and adjuster-ready photos and measurements for roofing and exteriors. We do not replace your insurance company’s decisions.</p>
+                    <article class="service-card">
+                        <h3>Contact</h3>
+                        <p>Phone, email, and the project request form.</p>
+                        <p><a href="/contact" class="btn btn-primary">Contact</a></p>
                     </article>
-                    <article class="faq-item">
-                        <h3>What services do you offer?</h3>
-                        <p>Roof repair and roof replacement, storm restoration, siding and gutters, and AI-assisted insurance estimate review. Licensed and insured, based in Joplin, MO.</p>
-                    </article>
-                    <article class="faq-item">
-                        <h3>What areas do you serve outside Joplin, MO?</h3>
-                        <p>We serve the four-state area around Joplin including Southwest Missouri, Northwest Arkansas, Northeast Oklahoma, and Southeast Kansas. Call to confirm coverage for your address.</p>
-                    </article>
-                    <article class="faq-item">
-                        <h3>What does built-right construction mean?</h3>
-                        <p>We install roofing, siding, and drainage components to code and manufacturer standards—underlayment, flashing, ventilation, and related details included—not shortcuts hidden under shingles.</p>
-                    </article>
-                    <article class="faq-item">
-                        <h3>How do I request a storm damage inspection?</h3>
-                        <p>Call <a href="tel:+14173969941">417-396-9941</a> or use our <a href="/contact">contact form</a>. We schedule as soon as we can, especially after widespread storms.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="contact">
-            <div class="container">
-                <div class="contact-wrapper">
-                    <div class="contact-info">
-                        <span class="section-tag">Get in touch</span>
-                        <h2>Start your project</h2>
-                        <p>Tell us what happened, upload your paperwork if you have it, and we’ll respond with a clear plan. You can also use our <a href="/contact">full contact page</a> for the same form and details.</p>
-                        <div class="contact-details">
-                            <p><strong>Phone:</strong> <a href="tel:+14173969941">417-396-9941</a></p>
-                            <p><strong>Email:</strong> <a href="mailto:Jespersenerections@gmail.com">Jespersenerections@gmail.com</a></p>
-                        </div>
-                    </div>
-                    <form class="contact-form">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required placeholder="Your name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required placeholder="your@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Project Details</label>
-                            <textarea id="message" name="message" rows="4" placeholder="Tell us about the storm, damage you see, and anything your insurance company has already told you."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full">Request inspection &amp; estimate review</button>
-                    </form>
                 </div>
             </div>
         </section>
@@ -543,15 +200,17 @@
                     <p>Roofing and exterior construction in Joplin, MO—storm restoration, siding and gutters, and insurance claim help with built-right installation.</p>
                 </div>
                 <div class="footer-links">
-                    <a href="/#services">Services</a>
+                    <a href="/services">Services</a>
+                    <a href="/our-work">Our work</a>
+                    <a href="/insurance-claims">Insurance</a>
+                    <a href="/why-us">Why us</a>
                     <a href="/services/roofing">Roofing</a>
                     <a href="/services/siding-and-exterior">Siding &amp; exterior</a>
                     <a href="/services/storm-restoration">Storm restoration</a>
                     <a href="/services/our-process">Our process</a>
-                    <a href="/insurance-claims">Insurance</a>
-                    <a href="/#portfolio">Our work</a>
                     <a href="/about">About</a>
-                    <a href="/#service-area">Service area</a>
+                    <a href="/service-area">Service area</a>
+                    <a href="/faq">FAQ</a>
                     <a href="/contact">Contact</a>
                 </div>
             </div>
