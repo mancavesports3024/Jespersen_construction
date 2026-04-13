@@ -3,13 +3,13 @@ const defaultContent = {
     eyebrow: 'What we do',
     heading: 'Roofing and exterior services in Joplin',
     description:
-      'Roof repair and replacement, storm restoration, siding and gutters, plus insurance claim help with clear documentation. Local crew, built-right work.',
+      'Roofing, siding, gutters, and full storm restoration — backed by AI‑powered insurance support and job‑site protection that keeps your landscaping and property safe.',
     items: [
       {
         icon: 'remodel',
         title: 'Roof repair & replacement',
         description:
-          'Hail, wind, and wear—we inspect, document, and install roofing to code with proper underlayment, flashing, and ventilation.',
+          'Code‑correct roof replacement and repair after hail or wind damage, with upgraded components whenever insurance allows.',
         link: '/services/roofing',
         linkLabel: 'Roofing details',
       },
@@ -17,7 +17,7 @@ const defaultContent = {
         icon: 'siding',
         title: 'Siding, gutters & exterior',
         description:
-          'Siding, gutters, wraps, and trim so water management and curb appeal match your roof—not a patch job on one elevation.',
+          'Impact‑resistant siding, seamless gutters, wraps, and trim — restoring the entire exterior, not just the shingles.',
         link: '/services/siding-and-exterior',
         linkLabel: 'Exterior details',
       },
@@ -33,7 +33,7 @@ const defaultContent = {
         icon: 'deck',
         title: 'Insurance claim help',
         description:
-          'AI-assisted estimate review, photos and measurements packaged for adjusters—we clarify what is missing; your carrier still decides.',
+          'AI‑driven claim review and adjuster‑ready documentation that uncovers missed line items, matches code requirements, and helps you secure a fair, complete claim.',
         link: '/insurance-claims',
         linkLabel: 'Claims & upload',
       },
