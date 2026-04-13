@@ -27,11 +27,17 @@ function normalizeContent(input) {
       description: asTrimmedString(raw.services?.description, defaults.services.description),
       items: asArray(raw.services?.items)
         .slice(0, 12)
-        .map((item, index) => ({
-          icon: ['deck', 'siding', 'remodel'].includes(item?.icon) ? item.icon : defaults.services.items[index % defaults.services.items.length].icon,
-          title: asTrimmedString(item?.title, `Service ${index + 1}`),
-          description: asTrimmedString(item?.description, ''),
-        }))
+        .map((item, index) => {
+          const defItem = defaults.services.items[index % defaults.services.items.length] || {};
+          const allowedIcons = ['deck', 'siding', 'remodel', 'storm'];
+          return {
+            icon: allowedIcons.includes(item?.icon) ? item.icon : defItem.icon || 'remodel',
+            title: asTrimmedString(item?.title, `Service ${index + 1}`),
+            description: asTrimmedString(item?.description, ''),
+            link: asTrimmedString(item?.link, defItem.link || ''),
+            linkLabel: asTrimmedString(item?.linkLabel, defItem.linkLabel || 'Learn more'),
+          };
+        })
         .filter((item) => item.title || item.description),
     },
     portfolio: {

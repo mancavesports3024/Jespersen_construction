@@ -26,6 +26,12 @@ const SERVICE_ICONS = {
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
             <path d="M9 22V12h6v10"/>
         </svg>
+    `,
+    storm: `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            <circle cx="12" cy="12" r="4"/>
+        </svg>
     `
 };
 
@@ -75,11 +81,17 @@ function renderServices(services) {
 
     grid.innerHTML = services.items.map((item) => {
         const iconMarkup = SERVICE_ICONS[item.icon] || SERVICE_ICONS.deck;
+        const linkHref = item.link ? escapeAttribute(item.link) : '';
+        const linkLabel = escapeHtml(item.linkLabel || 'Learn more');
+        const linkBlock = item.link
+            ? `<p><a href="${linkHref}" class="btn btn-secondary">${linkLabel}</a></p>`
+            : '';
         return `
             <article class="service-card">
                 <div class="service-icon">${iconMarkup}</div>
                 <h3>${escapeHtml(item.title)}</h3>
                 <p>${escapeHtml(item.description)}</p>
+                ${linkBlock}
             </article>
         `;
     }).join('');
@@ -267,7 +279,7 @@ function initScrollEffects() {
     }, observerOptions);
 
     // Add fade-in to sections
-    document.querySelectorAll('.service-card, .portfolio-item, .about-content, .service-area-region, .contact-wrapper').forEach(el => {
+    document.querySelectorAll('.service-card, .portfolio-item, .about-content, .service-area-region, .contact-wrapper, .trust-strip-inner, .faq-item').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';

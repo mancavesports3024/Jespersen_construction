@@ -1,72 +1,86 @@
 const defaultContent = {
   services: {
-    eyebrow: 'What We Do',
-    heading: 'Trusted Exterior Services',
+    eyebrow: 'What we do',
+    heading: 'Roofing and exterior services in Joplin',
     description:
-      'Roofing, siding, gutters, and storm restoration with AI-backed insurance support and job-site protection that keeps your landscaping and property safe.',
+      'Roof repair and replacement, storm restoration, siding and gutters, plus insurance claim help with clear documentation. Local crew, built-right work.',
     items: [
       {
         icon: 'remodel',
-        title: 'Storm-Damaged Roofing',
+        title: 'Roof repair & replacement',
         description:
-          'Full roof replacement and repair after hail or wind, installed to code with upgraded components where insurance allows.',
+          'Hail, wind, and wear—we inspect, document, and install roofing to code with proper underlayment, flashing, and ventilation.',
+        link: '/services/roofing',
+        linkLabel: 'Roofing details',
       },
       {
         icon: 'siding',
-        title: 'Siding, Gutters & Exterior',
+        title: 'Siding, gutters & exterior',
         description:
-          'Impact-resistant siding, seamless gutters, wraps, and trim so the whole exterior is restored — not just the shingles.',
+          'Siding, gutters, wraps, and trim so water management and curb appeal match your roof—not a patch job on one elevation.',
+        link: '/services/siding-and-exterior',
+        linkLabel: 'Exterior details',
+      },
+      {
+        icon: 'storm',
+        title: 'Storm restoration',
+        description:
+          'From inspection through cleanup: documentation for adjusters, supplements when scopes are thin, and catch-all debris control.',
+        link: '/services/storm-restoration',
+        linkLabel: 'Storm restoration',
       },
       {
         icon: 'deck',
-        title: 'AI-Assisted Insurance Claims',
+        title: 'Insurance claim help',
         description:
-          'AI tools and adjuster-ready documentation to find missed line items, match local code, and help you secure a fair, complete claim.',
+          'AI-assisted estimate review, photos and measurements packaged for adjusters—we clarify what is missing; your carrier still decides.',
+        link: '/insurance-claims',
+        linkLabel: 'Claims & upload',
       },
     ],
   },
   portfolio: {
-    eyebrow: 'Project Gallery',
-    heading: 'Storm Damage In — Built Right Out',
+    eyebrow: 'Project gallery',
+    heading: 'Storm damage in — built right out',
     description:
-      "A few examples of roofs, exteriors, and storm restorations we've brought back to better-than-before condition.",
+      "Roofs, siding, and full exteriors we've restored for homeowners in Joplin and the four-state area.",
     items: [
       {
-        title: 'Hail-Damaged Roof Replacement',
+        title: 'Hail-damaged roof replacement',
         subtitle: 'Architectural shingles, built-right ventilation, full cleanup',
         imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
       },
       {
-        title: 'Siding & Gutter Restoration',
-        subtitle: 'Storm-damaged vinyl siding replaced with upgraded system',
+        title: 'Siding & gutter restoration',
+        subtitle: 'Storm-damaged siding replaced with a complete drainage plane',
         imageUrl: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80',
       },
       {
-        title: 'Full Exterior Storm Rebuild',
+        title: 'Full exterior storm rebuild',
         subtitle: 'Roof, fascia, soffit, gutters, and wraps brought back to code',
         imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80',
       },
       {
-        title: 'Protected Landscaping Project',
-        subtitle: 'Catch-all system kept rock beds and plants debris-free',
+        title: 'Protected landscaping',
+        subtitle: 'Catch-all system kept beds and plantings debris-free',
         imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80',
       },
     ],
   },
   about: {
-    eyebrow: 'About Us',
-    heading: 'Built-Right Craftsmanship, Backed by AI',
+    eyebrow: 'Why homeowners call us',
+    heading: 'Local roofing and exterior construction',
     body:
-      'Jespersen Erections is a storm-restoration contractor that blends hands-on craftsmanship with modern AI tools. We document every layer, build to code, and protect your property with a full catch-all system so the only thing we leave behind is a finished project. From our Joplin base we serve the broader four-state area: Southwest Missouri, Northwest Arkansas, Northeast Oklahoma, and Southeast Kansas.',
+      'Jespersen Erections is a Joplin-based team focused on roofing and exterior construction after storms and normal wear. We combine hands-on installation with clear insurance documentation—so you know what we found, what we recommend, and what was installed.',
     features: [
-      'Licensed, insured, and focused on storm-restoration work',
-      'AI-assisted supplementing to find missed items in your insurance estimate',
-      'Built-right details: WRB, flashing, frieze wrap, window bucks, drainage planes, and more',
-      'Catch-all debris system to protect landscaping, driveways, and neighboring properties',
+      'Licensed and insured; work scoped and built to code',
+      'Adjuster-ready photos, measurements, and supplement support when estimates are incomplete',
+      'Built-right details: WRB, flashing, ventilation, gutters tied to the drainage plan',
+      'Catch-all debris control on jobs where your yard and neighbors need protection',
     ],
     stats: [
-      { value: 'Storm', label: 'Restoration Focused' },
-      { value: 'Code', label: 'Correct Every Time' },
+      { value: 'Joplin', label: 'Home base' },
+      { value: '4-state', label: 'Service area' },
     ],
   },
   searchResults: {

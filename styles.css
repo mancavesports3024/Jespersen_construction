@@ -243,6 +243,31 @@ body {
     50% { opacity: 0.5; transform: scaleY(0.5); }
 }
 
+/* Trust strip (homepage) */
+.trust-strip {
+    background: var(--color-bg-elevated);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.125rem 0;
+}
+
+.trust-strip-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+}
+
+.trust-strip-inner span::before {
+    content: '✓ ';
+    color: var(--color-accent);
+}
+
 /* Section Styles */
 section {
     padding: 5rem 0;
@@ -518,6 +543,111 @@ section {
 .stat-label {
     font-size: 0.875rem;
     color: var(--color-text-muted);
+}
+
+.claims-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+}
+
+.about-read-more {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+}
+
+/* FAQ (homepage) */
+.faq-list {
+    max-width: 46rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.faq-item {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+}
+
+.faq-item h3 {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+}
+
+.faq-item p {
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    margin: 0;
+}
+
+.faq-item a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.faq-item a:hover {
+    text-decoration: underline;
+}
+
+.section-header p a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.section-header p a:hover {
+    text-decoration: underline;
+}
+
+.local-seo-block {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.local-seo-heading {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+    text-align: center;
+}
+
+.local-seo-block p {
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    margin: 0;
+    text-align: left;
+}
+
+.contact-info p a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.contact-info p a:hover {
+    text-decoration: underline;
+}
+
+.service-area-note a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.service-area-note a:hover {
+    text-decoration: underline;
 }
 
 /* Contact */
