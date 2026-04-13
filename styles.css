@@ -299,6 +299,21 @@ section {
     color: var(--color-text-muted);
 }
 
+/* Button + trailing line in section headers (muted body text fails contrast on dark bg) */
+.section-header p.section-cta-note {
+    color: var(--color-text);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem 1rem;
+    line-height: 1.5;
+}
+
+.section-header p.section-cta-note strong {
+    color: var(--color-text);
+}
+
 /* Service area (four-state) */
 .service-area {
     background: var(--color-bg);
