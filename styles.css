@@ -612,12 +612,13 @@ section {
     text-decoration: underline;
 }
 
-.section-header p a {
+/* Inline links in section intros — not primary buttons (accent-on-accent would hide label text) */
+.section-header p a:not(.btn) {
     color: var(--color-accent);
     text-decoration: none;
 }
 
-.section-header p a:hover {
+.section-header p a:not(.btn):hover {
     text-decoration: underline;
 }
 
