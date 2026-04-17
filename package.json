@@ -1,7 +1,7 @@
 {
   "name": "jespersen",
   "version": "1.0.0",
-  "description": "A professional, responsive website for Jespersen Erections construction company. Built to showcase work and attract new business.",
+  "description": "A professional, responsive website for Jespersen Construction construction company. Built to showcase work and attract new business.",
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

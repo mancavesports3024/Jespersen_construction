@@ -1,5 +1,5 @@
 /**
- * Jespersen Erections - Website Scripts
+ * Jespersen Construction - Website Scripts
  */
 
 document.addEventListener('DOMContentLoaded', async () => {

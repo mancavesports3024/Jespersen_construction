@@ -41,29 +41,29 @@ const defaultContent = {
   },
   portfolio: {
     eyebrow: 'Project gallery',
-    heading: 'Storm damage in — built right out',
+    heading: 'Our work in Joplin MO & nearby cities',
     description:
-      "Roofs, siding, and full exteriors we've restored for homeowners in Joplin and the four-state area.",
+      "Roof replacement, siding, and storm restoration with city-level detail—Joplin, Carthage, Webb City, Neosho, and the four-state area.",
     items: [
       {
-        title: 'Hail-damaged roof replacement',
-        subtitle: 'Architectural shingles, built-right ventilation, full cleanup',
-        imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
+        title: 'Roof replacement — Joplin, MO',
+        subtitle: 'Architectural shingle install after storm damage; ventilation and cleanup on site',
+        imageUrl: '/roof1.jpg',
       },
       {
-        title: 'Siding & gutter restoration',
-        subtitle: 'Storm-damaged siding replaced with a complete drainage plane',
-        imageUrl: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80',
+        title: 'Full exterior — Webb City, MO area',
+        subtitle: 'Roof line, fascia, and drainage reviewed as one system',
+        imageUrl: '/Full%20outdoor.jpg',
       },
       {
-        title: 'Full exterior storm rebuild',
-        subtitle: 'Roof, fascia, soffit, gutters, and wraps brought back to code',
-        imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80',
+        title: 'Siding restoration — Carthage, MO (before)',
+        subtitle: 'Storm-damaged cladding removed; WRB and trim brought back to code',
+        imageUrl: '/Siding%20before.jpg',
       },
       {
-        title: 'Protected landscaping',
-        subtitle: 'Catch-all system kept beds and plantings debris-free',
-        imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80',
+        title: 'Siding restoration — Carthage, MO (after)',
+        subtitle: 'Finished exterior tied to gutters and roof edge',
+        imageUrl: '/Siding%20after.jpg',
       },
     ],
   },
@@ -71,7 +71,7 @@ const defaultContent = {
     eyebrow: 'Why homeowners call us',
     heading: 'Local roofing and exterior construction',
     body:
-      'Jespersen Erections is a Joplin-based team focused on roofing and exterior construction after storms and normal wear. We combine hands-on installation with clear insurance documentation—so you know what we found, what we recommend, and what was installed.',
+      'Jespersen Construction is a Joplin-based team focused on roofing and exterior construction after storms and normal wear. We combine hands-on installation with clear insurance documentation—so you know what we found, what we recommend, and what was installed.',
     features: [
       'Licensed and insured; work scoped and built to code',
       'Adjuster-ready photos, measurements, and supplement support when estimates are incomplete',
