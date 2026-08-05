@@ -185,11 +185,6 @@ function initContactForm() {
 
     if (!form) return;
 
-    const startedInput = form.querySelector('#formStartedAt');
-    if (startedInput && !startedInput.value) {
-        startedInput.value = String(Date.now());
-    }
-
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -204,8 +199,6 @@ function initContactForm() {
             email: form.querySelector('#email')?.value?.trim() || '',
             phone: form.querySelector('#phone')?.value?.trim() || '',
             message: form.querySelector('#message')?.value?.trim() || '',
-            website: form.querySelector('#website')?.value?.trim() || '',
-            _formStartedAt: form.querySelector('#formStartedAt')?.value || '',
         };
 
         btn.textContent = 'Sending...';
