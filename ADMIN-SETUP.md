@@ -27,7 +27,17 @@ Add these in `Project -> Settings -> Environment Variables`:
   - Example: `jespersen-admin-super-secret-change-this`
 
 - `BLOB_READ_WRITE_TOKEN`
-  - Create a Vercel Blob store and copy its read/write token here
+  - Read/write token for the existing **public** Blob store
+  - Used for public page content and portfolio images
+  - Do not point this at a private store. A store's access mode is chosen when the store is created and cannot be changed later.
+
+- `PRIVATE_BLOB_READ_WRITE_TOKEN`
+  - Read/write token for a **separate private** Blob store that holds admin search notes
+  - Not created by this repository. When you are ready, create a Blob store with access set to Private and connect it without replacing `BLOB_READ_WRITE_TOKEN`
+  - In the connection's Advanced Options, set the environment variable prefix to `PRIVATE_` so the generated name is `PRIVATE_BLOB_READ_WRITE_TOKEN`
+  - If the dashboard shows a different generated name, copy that private store's token into `PRIVATE_BLOB_READ_WRITE_TOKEN` yourself
+  - The code passes this token explicitly. Vercel uses an explicit `token` ahead of the project's default OIDC store (`BLOB_STORE_ID` and `VERCEL_OIDC_TOKEN`), which stays with the public store
+  - Admin Save fails until this is set. Public pages still read the public store without it
 
 ### Google Search Console (Search Results tab + query momentum)
 
@@ -74,5 +84,7 @@ Add these so contact form submissions send an email:
 ## Notes
 
 - If `BLOB_READ_WRITE_TOKEN` is missing, the public site still falls back to default content.
-- The public homepage loads editable content from `/api/content`.
-- `Search Results Data` is stored for admin use and is not shown on the public homepage.
+- The public homepage loads editable content from `/api/content`. That route reads only the public store.
+- `Search Results Data` is stored for admin use in a private Blob store at `admin/search-results.json`, using `PRIVATE_BLOB_READ_WRITE_TOKEN`. It is not written into the public `site-content.json` object and is not shown on the public homepage.
+- Only a signed-in admin request can read those notes. The private blob URL is not public.
+- This repository change does not create a store, rewrite the live Blob, or migrate notes. Legacy notes stay in the public object until an admin Save succeeds after the private token is configured. Download the current public `site-content.json` before that first save if you want a copy. See `docs/LEGAL-05-review.md` for recovery steps.

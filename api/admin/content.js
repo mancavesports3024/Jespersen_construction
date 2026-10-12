@@ -1,6 +1,5 @@
 const { isAuthenticated } = require('../_lib/admin-auth');
-const { loadStoredContent, saveContent } = require('../_lib/content-store');
-const { cloneDefaultContent } = require('../../data/default-content');
+const { loadAdminContent, saveContent } = require('../_lib/content-store');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -11,11 +10,12 @@ module.exports = async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      const content = await loadStoredContent();
+      const content = await loadAdminContent();
       return res.status(200).json(content);
     } catch (error) {
-      // Never block admin login just because stored content is unavailable.
-      return res.status(200).json(cloneDefaultContent());
+      return res.status(error.statusCode || 500).json({
+        error: error.message || 'Unable to load content.',
+      });
     }
   }
 
