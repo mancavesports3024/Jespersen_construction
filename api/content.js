@@ -1,4 +1,4 @@
-const { loadStoredContent, toPublicContent } = require('./_lib/content-store');
+const { loadPublicContent, toPublicContent } = require('./_lib/content-store');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -9,7 +9,7 @@ module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
 
   try {
-    const content = await loadStoredContent();
+    const content = await loadPublicContent();
     return res.status(200).json(toPublicContent(content));
   } catch (error) {
     return res.status(200).json(toPublicContent(require('../data/default-content').cloneDefaultContent()));

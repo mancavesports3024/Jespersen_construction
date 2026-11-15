@@ -1,7 +1,21 @@
-const { head, put } = require('@vercel/blob');
 const { cloneDefaultContent } = require('../../data/default-content');
 
 const CONTENT_BLOB_PATH = 'site-content.json';
+const PRIVATE_SEARCH_BLOB_PATH = 'admin/search-results.json';
+const PUBLIC_CONTENT_KEYS = ['services', 'portfolio', 'about'];
+const PUBLIC_BLOB_TOKEN_ENV = 'BLOB_READ_WRITE_TOKEN';
+const PRIVATE_BLOB_TOKEN_ENV = 'PRIVATE_BLOB_READ_WRITE_TOKEN';
+
+let blobClientOverride = null;
+
+function getBlobClient() {
+  if (blobClientOverride) return blobClientOverride;
+  return require('@vercel/blob');
+}
+
+function __setBlobClientForTests(client) {
+  blobClientOverride = client;
+}
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -14,6 +28,11 @@ function asTrimmedString(value, fallback = '') {
 
 function asArray(value) {
   return Array.isArray(value) ? value : [];
+}
+
+function isMissingBlob(error) {
+  const message = String(error?.message || '').toLowerCase();
+  return message.includes('not found') || error?.name === 'BlobNotFoundError';
 }
 
 function normalizeContent(input) {
@@ -94,55 +113,184 @@ function toPublicContent(content) {
   };
 }
 
-function getBlobToken() {
-  return process.env.BLOB_READ_WRITE_TOKEN;
-}
-
-async function loadStoredContent() {
-  const token = getBlobToken();
-  if (!token) {
-    return cloneDefaultContent();
-  }
-
-  try {
-    const blob = await head(CONTENT_BLOB_PATH, { token });
-    const response = await fetch(blob.url, { cache: 'no-store' });
-    if (!response.ok) {
-      throw new Error(`Unable to read saved content: ${response.status}`);
-    }
-
-    const raw = await response.json();
-    return normalizeContent(raw);
-  } catch (error) {
-    if (error?.message && error.message.toLowerCase().includes('not found')) {
-      return cloneDefaultContent();
-    }
+function assertPublicPayload(content) {
+  const keys = Object.keys(content);
+  const extra = keys.filter((key) => !PUBLIC_CONTENT_KEYS.includes(key));
+  if (extra.length) {
+    const error = new Error('Refusing to write non-public fields to public content.');
+    error.statusCode = 500;
     throw error;
   }
+}
+
+function configurationError(message) {
+  const error = new Error(message);
+  error.statusCode = 503;
+  return error;
+}
+
+function readToken(name) {
+  const value = process.env[name];
+  return typeof value === 'string' && value.trim() ? value.trim() : '';
+}
+
+function getPublicToken() {
+  return readToken(PUBLIC_BLOB_TOKEN_ENV);
+}
+
+function getPrivateToken() {
+  return readToken(PRIVATE_BLOB_TOKEN_ENV);
+}
+
+function assertDistinctStoreTokens(publicToken, privateToken) {
+  if (publicToken && privateToken && publicToken === privateToken) {
+    throw configurationError(
+      `${PRIVATE_BLOB_TOKEN_ENV} must be a separate private-store token, not ${PUBLIC_BLOB_TOKEN_ENV}. No Blob data was written.`
+    );
+  }
+}
+
+async function readBlobStream(stream) {
+  if (!stream) return '';
+  if (typeof stream.getReader === 'function') {
+    const reader = stream.getReader();
+    const chunks = [];
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(Buffer.from(value));
+    }
+    return Buffer.concat(chunks).toString('utf8');
+  }
+
+  const chunks = [];
+  for await (const chunk of stream) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks).toString('utf8');
+}
+
+async function loadPublicRaw(token) {
+  const blob = await getBlobClient().head(CONTENT_BLOB_PATH, { token });
+  const response = await fetch(blob.url, { cache: 'no-store' });
+  if (!response.ok) {
+    const error = new Error(
+      response.status === 404 ? 'Blob not found' : `Unable to read saved content: ${response.status}`
+    );
+    error.statusCode = response.status;
+    throw error;
+  }
+  return response.json();
+}
+
+async function loadPrivateSearchResults(token) {
+  try {
+    const result = await getBlobClient().get(PRIVATE_SEARCH_BLOB_PATH, {
+      access: 'private',
+      token,
+      useCache: false,
+    });
+    if (!result || !result.stream) return null;
+    const parsed = JSON.parse(await readBlobStream(result.stream));
+    return parsed?.searchResults || null;
+  } catch (error) {
+    if (isMissingBlob(error)) return null;
+    throw error;
+  }
+}
+
+async function readPublicRaw() {
+  const token = getPublicToken();
+  if (!token) return null;
+  try {
+    return await loadPublicRaw(token);
+  } catch (error) {
+    if (isMissingBlob(error)) return null;
+    throw error;
+  }
+}
+
+async function loadPublicContent() {
+  const publicRaw = await readPublicRaw();
+  if (!publicRaw) return toPublicContent(cloneDefaultContent());
+  return toPublicContent(normalizeContent(publicRaw));
+}
+
+async function loadAdminContent() {
+  const publicToken = getPublicToken();
+  const privateToken = getPrivateToken();
+  assertDistinctStoreTokens(publicToken, privateToken);
+
+  const publicRaw = await readPublicRaw();
+  let privateSearch = null;
+  if (privateToken) {
+    privateSearch = await loadPrivateSearchResults(privateToken);
+  }
+
+  const merged = publicRaw && typeof publicRaw === 'object' ? { ...publicRaw } : {};
+  if (privateSearch) merged.searchResults = privateSearch;
+  if (!publicRaw && !privateSearch) return cloneDefaultContent();
+  return normalizeContent(merged);
 }
 
 async function saveContent(input) {
-  const token = getBlobToken();
-  if (!token) {
-    const error = new Error('Missing required environment variable: BLOB_READ_WRITE_TOKEN');
-    error.statusCode = 503;
-    throw error;
+  const publicToken = getPublicToken();
+  const privateToken = getPrivateToken();
+  if (!publicToken) {
+    throw configurationError(
+      `Missing required environment variable: ${PUBLIC_BLOB_TOKEN_ENV}. Nothing was saved.`
+    );
   }
+  if (!privateToken) {
+    throw configurationError(
+      `Missing required environment variable: ${PRIVATE_BLOB_TOKEN_ENV}. Admin notes were not written to the public store, and public content was not changed.`
+    );
+  }
+  assertDistinctStoreTokens(publicToken, privateToken);
 
   const normalized = normalizeContent(input);
-  await put(CONTENT_BLOB_PATH, JSON.stringify(normalized, null, 2), {
-    access: 'public',
+  const publicContent = toPublicContent(normalized);
+  assertPublicPayload(publicContent);
+  const privateContent = { searchResults: clone(normalized.searchResults) };
+  const blob = getBlobClient();
+
+  // Private store first. A failure here leaves the public object, including any legacy notes, unchanged.
+  await blob.put(PRIVATE_SEARCH_BLOB_PATH, JSON.stringify(privateContent, null, 2), {
+    access: 'private',
     addRandomSuffix: false,
     allowOverwrite: true,
     contentType: 'application/json; charset=utf-8',
-    token,
+    token: privateToken,
   });
+
+  try {
+    await blob.put(CONTENT_BLOB_PATH, JSON.stringify(publicContent, null, 2), {
+      access: 'public',
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      contentType: 'application/json; charset=utf-8',
+      token: publicToken,
+    });
+  } catch (error) {
+    const wrapped = new Error(
+      `Admin notes were saved in the private store, but public content was not updated. ${error.message} Save again after the public store is available. Do not delete the private object.`
+    );
+    wrapped.statusCode = error.statusCode || 500;
+    throw wrapped;
+  }
 
   return normalized;
 }
 
 module.exports = {
-  loadStoredContent,
+  CONTENT_BLOB_PATH,
+  PRIVATE_BLOB_TOKEN_ENV,
+  PRIVATE_SEARCH_BLOB_PATH,
+  PUBLIC_BLOB_TOKEN_ENV,
+  PUBLIC_CONTENT_KEYS,
+  __setBlobClientForTests,
+  loadAdminContent,
+  loadPublicContent,
   normalizeContent,
   saveContent,
   toPublicContent,
